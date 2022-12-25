@@ -24,31 +24,24 @@ packer.startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'
 
   use 'glepnir/lspsaga.nvim' -- LSP UIs
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
-  }
   use 'kyazdani42/nvim-web-devicons' -- File icons
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-file-browser.nvim'
   use 'windwp/nvim-autopairs'
   use 'windwp/nvim-ts-autotag'
-  use { 'numToStr/Comment.nvim',
-    requires = {
-      'JoosepAlviste/nvim-ts-context-commentstring'
-    }
-  }
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/zen-mode.nvim'
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
   use 'akinsho/nvim-bufferline.lua'
   -- use 'github/copilot.vim'
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
+  use 'tpope/vim-surround'
+  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
@@ -56,10 +49,18 @@ packer.startup(function(use)
     },
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
-  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
   use {
     "neoclide/coc.nvim",
     run = "yarn install"
+  }
+  use { 'numToStr/Comment.nvim',
+    requires = {
+      'JoosepAlviste/nvim-ts-context-commentstring'
+    }
+  }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
 
 end)
