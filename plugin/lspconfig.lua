@@ -47,7 +47,6 @@ nvim_lsp.flow.setup {
 
 nvim_lsp.tsserver.setup {
   on_attach = on_attach,
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
   cmd = { "typescript-language-server", "--stdio" },
   capabilities = capabilities
 }
@@ -58,11 +57,11 @@ nvim_lsp.sourcekit.setup {
 }
 
 --C/C++
-nvim_lsp.clangd.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = function() return vim.loop.cwd() end,
-}
+--nvim_lsp.clangd.setup {
+--on_attach = on_attach,
+--capabilities = capabilities,
+--root_dir = function() return vim.loop.cwd() end,
+--}
 
 --html
 nvim_lsp.html.setup {
@@ -78,13 +77,17 @@ nvim_lsp.pyright.setup {
   root_dir = function() return vim.loop.cwd() end,
 }
 
---robot framework
-nvim_lsp.robotframework_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = function() return vim.loop.cwd() end,
-}
+require('lspconfig').sourcery.setup({
+  init_options = {
+    token = 'user_d9P2twMyl7H2kLjwNBZVll8moWwuctO08KKdm70SREj_r6dV5CMtCCYDlxQ',
+    extension_version = 'vim.lsp',
+    editor_version = 'vim'
+  },
 
+  --- the rest of your options...
+})
+
+--lua
 nvim_lsp.sumneko_lua.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
@@ -107,9 +110,12 @@ nvim_lsp.sumneko_lua.setup {
   },
 }
 
-nvim_lsp.tailwindcss.setup {
+nvim_lsp.tailwindcss.setup {}
+
+nvim_lsp.ltex.setup {
   on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  root_dir = function() return vim.loop.cwd() end,
 }
 
 nvim_lsp.cssls.setup {
@@ -122,6 +128,9 @@ nvim_lsp.astro.setup {
   capabilities = capabilities
 }
 
+nvim_lsp.sqls.setup {
+  on_attach = on_attach,
+}
 
 -- Diagnostic symbols in the sign column (gutter)
 local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
@@ -130,53 +139,15 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-vim.diagnostic.open_float = (function(orig)
-  return function(bufnr, opts)
-    local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
-    opts = opts or {}
-    -- A more robust solution would check the "scope" value in `opts` to
-    -- determine where to get diagnostics from, but if you're only using
-    -- this for your own purposes you can make it as simple as you like
-    local diagnostics = vim.diagnostic.get(opts.bufnr or 0, { lnum = lnum })
-    local max_severity = vim.diagnostic.severity.HINT
-    for _, d in ipairs(diagnostics) do
-      -- Equality is "less than" based on how the severities are encoded
-      if d.severity < max_severity then
-        max_severity = d.severity
-      end
-    end
-    local border_color = ({
-      [vim.diagnostic.severity.HINT]  = "DiagnosticHint",
-      [vim.diagnostic.severity.INFO]  = "DiagnosticInfo",
-      [vim.diagnostic.severity.WARN]  = "DiagnosticWarn",
-      [vim.diagnostic.severity.ERROR] = "DiagnosticError",
-    })[max_severity]
-    opts.border = {
-      { "╭", border_color },
-      { "─", border_color },
-      { "╮", border_color },
-      { "│", border_color },
-      { "╯", border_color },
-      { "─", border_color },
-      { "╰", border_color },
-      { "│", border_color },
-    }
-
-    orig(bufnr, opts)
-  end
-end)(vim.diagnostic.open_float)
-
-
--- You will likely want to reduce updatetime which affects CursorHold
--- note: this setting is global and should be set only once
-vim.o.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-
-
 -- Show source in diagnostics, not inline but as a floating popup
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = {
+    prefix = ''
+  },
+  update_in_insert = true,
   float = {
     source = "always", -- Or "if_many"
   },
 })
+
+vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]

@@ -1,13 +1,15 @@
 local keymap = vim.keymap
 
+-- No Copy
 keymap.set('n', 'x', '"_x')
+keymap.set('x', 'p', '"_dP')
 
 -- Increment/decrement
 keymap.set('n', '+', '<C-a>')
 keymap.set('n', '-', '<C-x>')
 
 -- Delete a word backwards
-keymap.set('n', 'dw', 'vb"_d')
+keymap.set('n', 'df', 'vb"_d')
 
 -- Select all
 keymap.set('n', '<C-a>', 'gg<S-v>G')
@@ -15,11 +17,17 @@ keymap.set('n', '<C-a>', 'gg<S-v>G')
 -- Save with root permission (not working for now)
 --vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
+-- Move Lines
+keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+
 -- New tab
-keymap.set('n', 'te', ':tabedit')
+keymap.set('n', 'te', ':tabedit<CR>')
+
 -- Split window
 keymap.set('n', 'ss', ':split<Return><C-w>w')
 keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
+
 -- Move window
 keymap.set('n', '<Space>', '<C-w>w')
 keymap.set('', 'sh', '<C-w>h')
@@ -41,10 +49,10 @@ keymap.set('n', '<S-e>', ':bnext<CR>')
 keymap.set('n', '<S-w>', ':bprevious<CR>')
 
 -- lsp
-keymap.set('n', '<leader>z', ':LspRestart<cr>', { silent = true })
+keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
 
 -- pythong settings
-keymap.set('n', '<leader>g <cmd>Black', '<cr>')
+keymap.set('n', '<leader>g', ':Black<CR>')
 
 -- Coc
 keymap.set('n', '<leader>cl', ':CocDiagnostics<CR>', { silent = true })

@@ -20,6 +20,7 @@ packer.startup(function(use)
   use 'hrsh7th/nvim-cmp' -- Completion
   use 'neovim/nvim-lspconfig' -- LSP
   use 'jose-elias-alvarez/null-ls.nvim' -- Use Neovim as a language server to inject LSP diagnostics, code actions, and more via Lua
+  use 'MunifTanjim/prettier.nvim' -- Prettier
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
 
@@ -32,26 +33,28 @@ packer.startup(function(use)
   use 'norcalli/nvim-colorizer.lua'
   use 'folke/zen-mode.nvim'
   use 'akinsho/nvim-bufferline.lua'
+  use 'psf/black'
+  use 'preservim/nerdcommenter'
+  use 'mfukar/robotframework-vim'
+  use 'nanotee/sqls.nvim'
+  use 'jsborjesson/vim-uppercase-sql'
   -- use 'github/copilot.vim'
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
   use 'tpope/vim-surround'
-  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
   use({
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
+
+  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
     tag = 'nightly' -- optional, updated every week. (see issue #1193)
-  }
-  use {
-    "neoclide/coc.nvim",
-    run = "yarn install"
   }
   use { 'numToStr/Comment.nvim',
     requires = {
@@ -62,5 +65,13 @@ packer.startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
   }
-
+  use({ "ziontee113/color-picker.nvim",
+    config = function()
+      require("color-picker")
+    end,
+  })
+  use {
+    'glacambre/firenvim',
+    run = function() vim.fn['firenvim#install'](0) end
+  }
 end)
