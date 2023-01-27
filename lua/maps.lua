@@ -54,21 +54,6 @@ keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
 -- pythong settings
 keymap.set('n', '<leader>g', ':Black<CR>')
 
--- Coc
-keymap.set('n', '<leader>cl', ':CocDiagnostics<CR>', { silent = true })
-keymap.set('n', '<leader>ch', ':call CocAction("doHover")<CR>', { silent = true })
-keymap.set('n', '<leader>cf', '<plug>(coc-codeaction-cursor)', { silent = true })
-keymap.set('n', '<leader>ca', '<plug>(coc-fix-current)', { silent = true })
-
-
--- Telescope mappings
-keymap.set('n', '<leader>ff', ':Telescope find_files<cr>')
-keymap.set('n', '<leader>fg', ':Telescope live_grep<cr>')
-keymap.set('n', '<leader>fb', ':Telescope buffers<cr>')
-keymap.set('n', '<leader>fh', ':Telescope help_tags<cr>')
-keymap.set('n', '<leader>fc', ':Telescope colorscheme<cr>')
-
-
 -- Quick Compilation
 vim.cmd(([[
   autocmd FileType python nmap <leader>d <cmd>Docstring <cr>

@@ -51,17 +51,11 @@ nvim_lsp.tsserver.setup {
   capabilities = capabilities
 }
 
-nvim_lsp.sourcekit.setup {
+nvim_lsp.clangd.setup {
   on_attach = on_attach,
   capabilities = capabilities,
+  root_dir = function() return vim.loop.cwd() end,
 }
-
---C/C++
---nvim_lsp.clangd.setup {
---on_attach = on_attach,
---capabilities = capabilities,
---root_dir = function() return vim.loop.cwd() end,
---}
 
 --html
 nvim_lsp.html.setup {
@@ -72,6 +66,19 @@ nvim_lsp.html.setup {
 
 --python
 nvim_lsp.pyright.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  root_dir = function() return vim.loop.cwd() end,
+}
+
+--gopls
+nvim_lsp.gopls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  root_dir = function() return vim.loop.cwd() end,
+}
+
+nvim_lsp.robotframework_ls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
   root_dir = function() return vim.loop.cwd() end,
@@ -118,22 +125,28 @@ nvim_lsp.ltex.setup {
   root_dir = function() return vim.loop.cwd() end,
 }
 
-nvim_lsp.cssls.setup {
+nvim_lsp.bashls.setup {
   on_attach = on_attach,
-  capabilities = capabilities
+  capabilities = capabilities,
+  root_dir = function() return vim.loop.cwd() end,
 }
 
-nvim_lsp.astro.setup {
-  on_attach = on_attach,
-  capabilities = capabilities
-}
+--nvim_lsp.cssls.setup {
+--on_attach = on_attach,
+--capabilities = capabilities
+--}
 
-nvim_lsp.sqls.setup {
-  on_attach = on_attach,
-}
+--nvim_lsp.astro.setup {
+--on_attach = on_attach,
+--capabilities = capabilities
+--}
+
+--nvim_lsp.sqls.setup {
+--on_attach = on_attach,
+--}
 
 -- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })

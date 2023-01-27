@@ -38,24 +38,24 @@ packer.startup(function(use)
   use 'mfukar/robotframework-vim'
   use 'nanotee/sqls.nvim'
   use 'jsborjesson/vim-uppercase-sql'
-  -- use 'github/copilot.vim'
+  use 'Vimjas/vim-python-pep8-indent'
+  use 'fatih/vim-go'
 
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim' -- For git blame & browse
   use 'tpope/vim-surround'
+  use 'hrsh7th/cmp-path'
+  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
+  use {
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+    config = function() end
+  }
   use({
     "iamcco/markdown-preview.nvim",
     run = function() vim.fn["mkdp#util#install"]() end,
   })
 
-  use({ "L3MON4D3/LuaSnip", tag = "v<CurrentMajor>.*" })
-  use {
-    'nvim-tree/nvim-tree.lua',
-    requires = {
-      'nvim-tree/nvim-web-devicons', -- optional, for file icons
-    },
-    tag = 'nightly' -- optional, updated every week. (see issue #1193)
-  }
   use { 'numToStr/Comment.nvim',
     requires = {
       'JoosepAlviste/nvim-ts-context-commentstring'
@@ -64,6 +64,9 @@ packer.startup(function(use)
   use {
     'nvim-treesitter/nvim-treesitter',
     run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+  }
+  use { 'dsznajder/vscode-es7-javascript-react-snippets',
+    run = 'yarn install --frozen-lockfile && yarn compile'
   }
   use({ "ziontee113/color-picker.nvim",
     config = function()

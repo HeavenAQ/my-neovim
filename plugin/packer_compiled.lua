@@ -99,6 +99,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
+  ["cmp-path"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
+  },
   ["color-picker.nvim"] = {
     config = { "\27LJ\2\n,\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\17color-picker\frequire\0" },
     loaded = true,
@@ -109,6 +114,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/colorbuddy.nvim",
     url = "https://github.com/tjdevries/colorbuddy.nvim"
+  },
+  firenvim = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/firenvim",
+    url = "https://github.com/glacambre/firenvim"
   },
   ["git.nvim"] = {
     loaded = true,
@@ -215,11 +225,6 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
-  ["peek.nvim"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/peek.nvim",
-    url = "https://github.com/toppair/peek.nvim"
-  },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/plenary.nvim",
@@ -234,6 +239,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/robotframework-vim",
     url = "https://github.com/mfukar/robotframework-vim"
+  },
+  ["sqls.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/sqls.nvim",
+    url = "https://github.com/nanotee/sqls.nvim"
   },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
@@ -250,10 +260,35 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
+  ["vim-go"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-go",
+    url = "https://github.com/fatih/vim-go"
+  },
+  ["vim-postgresql-syntax"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-postgresql-syntax",
+    url = "https://github.com/krisajenkins/vim-postgresql-syntax"
+  },
+  ["vim-python-pep8-indent"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent",
+    url = "https://github.com/Vimjas/vim-python-pep8-indent"
+  },
   ["vim-surround"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-surround",
     url = "https://github.com/tpope/vim-surround"
+  },
+  ["vim-uppercase-sql"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-uppercase-sql",
+    url = "https://github.com/jsborjesson/vim-uppercase-sql"
+  },
+  ["vscode-es7-javascript-react-snippets"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vscode-es7-javascript-react-snippets",
+    url = "https://github.com/dsznajder/vscode-es7-javascript-react-snippets"
   },
   ["zen-mode.nvim"] = {
     loaded = true,
