@@ -16,7 +16,10 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
-  },
+    prompt_prefix = " ",
+    selection_caret = " ",
+    multi_icon = "落",
+  },       
   extensions = {
     file_browser = {
       theme = "dropdown",
@@ -39,6 +42,7 @@ telescope.setup {
 }
 
 telescope.load_extension("file_browser")
+telescope.load_extension("harpoon")
 
 -- Telescope mappings
 local keymap = vim.keymap
@@ -47,5 +51,5 @@ keymap.set('n', '<leader>fg', ':Telescope live_grep<cr>')
 keymap.set('n', '<leader>fb', ':Telescope buffers<cr>')
 keymap.set('n', '<leader>fh', ':Telescope help_tags<cr>')
 keymap.set('n', '<leader>fc', ':Telescope colorscheme<cr>')
-keymap.set('n', '<leader>fc', ':Telescope colorscheme<cr>')
+keymap.set('n', '<leader>fm', ':Telescope harpoon marks<cr>')
 keymap.set('n', '\\', ':Telescope file_browser<cr>')

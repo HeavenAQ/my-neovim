@@ -4,14 +4,14 @@ if (not status) then return end
 lualine.setup {
   options = {
     icons_enabled = true,
-    theme = 'tokyonight',
+    theme = 'material-stealth',
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' },
     disabled_filetypes = {}
   },
   sections = {
     lualine_a = { 'mode' },
-    lualine_b = { 'branch' },
+    lualine_b = { 'branch', { "diff", symbols = { added = " ", modified = " ", removed = " " } } },
     lualine_c = { {
       'filename',
       file_status = true, -- displays file status (readonly status, modified status)

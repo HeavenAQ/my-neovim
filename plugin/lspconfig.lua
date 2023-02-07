@@ -68,7 +68,6 @@ nvim_lsp.html.setup {
 nvim_lsp.pyright.setup {
   on_attach = on_attach,
   capabilities = capabilities,
-  root_dir = function() return vim.loop.cwd() end,
 }
 
 --gopls
@@ -84,7 +83,7 @@ nvim_lsp.robotframework_ls.setup {
   root_dir = function() return vim.loop.cwd() end,
 }
 
-require('lspconfig').sourcery.setup({
+nvim_lsp.sourcery.setup({
   init_options = {
     token = 'user_d9P2twMyl7H2kLjwNBZVll8moWwuctO08KKdm70SREj_r6dV5CMtCCYDlxQ',
     extension_version = 'vim.lsp',
@@ -94,36 +93,8 @@ require('lspconfig').sourcery.setup({
   --- the rest of your options...
 })
 
---lua
-nvim_lsp.sumneko_lua.setup {
-  capabilities = capabilities,
-  on_attach = function(client, bufnr)
-    on_attach(client, bufnr)
-    enable_format_on_save(client, bufnr)
-  end,
-  settings = {
-    Lua = {
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
-      },
-
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = vim.api.nvim_get_runtime_file("", true),
-        checkThirdParty = false
-      },
-    },
-  },
-}
-
 nvim_lsp.tailwindcss.setup {}
 
-nvim_lsp.ltex.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = function() return vim.loop.cwd() end,
-}
 
 nvim_lsp.bashls.setup {
   on_attach = on_attach,

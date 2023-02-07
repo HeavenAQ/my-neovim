@@ -51,7 +51,7 @@ keymap.set('n', '<S-w>', ':bprevious<CR>')
 -- lsp
 keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
 
--- pythong settings
+-- python settings
 keymap.set('n', '<leader>g', ':Black<CR>')
 
 -- Quick Compilation
@@ -62,4 +62,6 @@ vim.cmd(([[
   autocmd FileType * let b:coc_suggest_disable = 1
   autocmd FileType c nmap <leader>w <cmd>! gcc %<cr>
   autocmd FileType c nmap <leader>e <cmd>! ./a.out<cr>
+  autocmd FileType cpp nmap <leader>w <cmd>! gcc %<cr>
+  autocmd FileType cpp nmap <leader>e <cmd>! ./a.out<cr>
 ]]))

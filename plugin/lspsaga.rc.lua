@@ -2,15 +2,12 @@ local status, saga = pcall(require, "lspsaga")
 if (not status) then return end
 
 saga.setup({
-  server_filetype_map = {
-    typescript = 'typescript'
-  },
   ui = {
     -- currently only round theme
     theme = 'round',
     title = true,
     -- border type can be single,double,rounded,solid,shadow.
-    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+    border = 'rounded',
     winblend = 0,
     expand = '',
     collapse = '',
@@ -35,8 +32,6 @@ saga.setup({
       white = '#ffffff',
       black = '#1c1c19',
     },
-    kind = {
-    },
   },
   code_action = {
     num_shortcut = true,
@@ -51,7 +46,7 @@ saga.setup({
     vsplit = 's',
     split = 'i',
     tabe = 't',
-    quit = { 'q' },
+    quit = 'q',
   },
   definition = {
     edit = '<C-c>o',
@@ -59,7 +54,7 @@ saga.setup({
     split = '<C-c>i',
     tabe = '<C-c>t',
     quit = 'q',
-    close = 'q',
+    close = '<C-c>',
   },
   symbol_in_winbar = {
     enable = true,
