@@ -16,16 +16,18 @@ vim.opt.showcmd = true
 vim.opt.cmdheight = 1
 vim.opt.laststatus = 2
 vim.opt.expandtab = true
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 8
 vim.opt.shell = 'fish'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.smarttab = true
 vim.opt.breakindent = true
+vim.opt.autoindent = true
+vim.opt.wrap = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
@@ -40,6 +42,19 @@ vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = '*',
   command = "set nopaste"
 })
+
+-- trigger black and isort on save for python file
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = '*.py',
+  command = "silent !black % && isort %"
+})
+
+-- inoremap <buffer> <silent> <CR> <C-R>=AutoPairsSpace()<CR>
+--vim.api.nvim_create_autocmd("InsertEnter", {
+  --pattern = '*',
+  --command = "inoremap <buffer> <silent> <CR> <C-R>=AutoPairsSpace()<CR>"
+--})
+
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }

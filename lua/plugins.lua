@@ -19,7 +19,9 @@ packer.startup(function(use)
   use("MunifTanjim/prettier.nvim") -- Prettier
   use("williamboman/mason.nvim")
   use("williamboman/mason-lspconfig.nvim")
+  use("lukas-reineke/lsp-format.nvim")
 
+  use('godlygeek/tabular')
   use("glepnir/lspsaga.nvim") -- LSP UIs
   use("kyazdani42/nvim-web-devicons") -- File icons
   use("nvim-telescope/telescope.nvim")
@@ -43,6 +45,16 @@ packer.startup(function(use)
   use("tpope/vim-surround")
   use("hrsh7th/cmp-path")
   use("ThePrimeagen/harpoon")
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use("zbirenbaum/copilot.lua")
+  use {
+    "zbirenbaum/copilot-cmp",
+    after = { "copilot.lua" },
+    config = function ()
+      require("copilot_cmp").setup()
+    end
+  }
+  use("rebelot/kanagawa.nvim")
   use({ "michaelb/sniprun", run = "bash ./install.sh" })
   use({
     "jose-elias-alvarez/null-ls.nvim",
@@ -53,12 +65,6 @@ packer.startup(function(use)
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
     config = function() end,
-  })
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function()
-      vim.fn["mkdp#util#install"]()
-    end,
   })
 
   use({ "numToStr/Comment.nvim", requires = {
