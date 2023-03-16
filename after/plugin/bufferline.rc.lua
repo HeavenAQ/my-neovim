@@ -8,7 +8,7 @@ bufferline.setup({
     --icon = " 直",
     --},
     show_buffer_icons = false,
-    separator_style = "thick",
+    separator_style = "slant",
     always_show_bufferline = false,
     show_buffer_close_icons = false,
     show_close_icon = false,
@@ -19,50 +19,42 @@ bufferline.setup({
     modified_icon = "",
     left_trunc_marker = "",
     right_trunc_marker = "",
-    custom_areas = {
-      right = function()
-        local result = {}
-        local seve = vim.diagnostic.severity
-        local error = #vim.diagnostic.get(0, { severity = seve.ERROR })
-        local warning = #vim.diagnostic.get(0, { severity = seve.WARN })
-        local info = #vim.diagnostic.get(0, { severity = seve.INFO })
-        local hint = #vim.diagnostic.get(0, { severity = seve.HINT })
-
-        if error ~= 0 then
-          table.insert(result, { text = "  " .. error, fg = "#db4b4b" })
-        end
-
-        if warning ~= 0 then
-          table.insert(result, { text = "  " .. warning, fg = "#e0af68" })
-        end
-
-        if hint ~= 0 then
-          table.insert(result, { text = "  " .. hint, fg = "#2ac3de" })
-        end
-
-        if info ~= 0 then
-          table.insert(result, { text = "  " .. info, fg = "#1abc9c" })
-        end
-        return result
-      end,
-    },
 
   },
   highlights = {
     separator = {
-      fg = '#1f2126',
-      bg = '#1f2126',
+      fg = '#111113',
+      bg = '#111113',
+    },
+    separator_selected = {
+      fg = '#111113',
+      bg = '#fdf6e3',
+    },
+    modified = {
+      bg = '#111113'
+    },
+    duplicate_selected = {
+      fg = '#EE4866',
+      bg = '#fdf6e3',
+      italic = true,
+    },
+    duplicate = {
+      fg = '#EE4866',
+      bg = '#111113',
+    },
+    modified_selected = {
+      bg = '#fdf6e3'
     },
     background = {
       fg = '#8f8d8e',
-      bg = '#1f2126',
+      bg = '#111113',
     },
     buffer_selected = {
-      fg = '#1f2126',
+      fg = '#111113',
       bg = '#fdf6e3',
     },
     offset_separator = {
-      bg = '#1f2126',
+      bg = '#111113',
       fg = '#fdf6e3',
     },
   }

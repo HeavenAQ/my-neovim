@@ -25,9 +25,8 @@ vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.autoindent = true
 vim.opt.wrap = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.wrap = false
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
@@ -39,22 +38,53 @@ vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
-  pattern = '*',
-  command = "set nopaste"
+    pattern = '*',
+    command = "set nopaste"
 })
 
--- trigger black and isort on save for python file
+-- python related settings
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = '*.py',
-  command = "silent !black % && isort %"
+    pattern = '*.py',
+    command = "silent !isort % && black --quiet %"
 })
 
--- inoremap <buffer> <silent> <CR> <C-R>=AutoPairsSpace()<CR>
---vim.api.nvim_create_autocmd("InsertEnter", {
-  --pattern = '*',
-  --command = "inoremap <buffer> <silent> <CR> <C-R>=AutoPairsSpace()<CR>"
---})
+-- java related settings
+-- auto compile java files
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.java',
+    command = "silent !javac %"
+})
+
+-- c related settings
+-- auto format c and cpp files
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.cpp',
+    command = "silent !clang-format -i -style='{BasedOnStyle: llvm, IndentWidth: 4, TabWidth: 4}' %"
+})
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.[ch]',
+    command = "silent !clang-format -i -style='{BasedOnStyle: llvm, IndentWidth: 4, TabWidth: 4}' %"
+})
+
+-- go related settings
+-- auto format go files
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.go',
+    command = "silent !gofmt -w % && goimports -w %"
+})
+
+-- journal and markdown related settings
+-- set indent to 2 spaces
+vim.api.nvim_create_autocmd("BufNewFile,BufRead", {
+    pattern = '*.md',
+    command = "setlocal shiftwidth=2 tabstop=2"
+})
+vim.api.nvim_create_autocmd("BufNewFile,BufRead", {
+    pattern = '*.norg',
+    command = "setlocal shiftwidth=2 tabstop=2"
+})
 
 
 -- Add asterisks in block comments
+vim.opt.formatoptions:remove { 'o' } -- O and o, don't continue comments
 vim.opt.formatoptions:append { 'r' }

@@ -52,8 +52,8 @@ keymap.set('n', '<S-w>', ':bprevious<CR>')
 -- lsp
 keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
 
--- python settings
-keymap.set('n', '<leader>g', ':Black<CR>')
+-- markdown settings
+keymap.set('n', '<leader>g', ':MarkdownPreview<CR>')
 
 -- Quick Compilation
 vim.cmd(([[

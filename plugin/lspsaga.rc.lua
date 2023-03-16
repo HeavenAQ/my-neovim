@@ -2,69 +2,82 @@ local status, saga = pcall(require, "lspsaga")
 if (not status) then return end
 
 saga.setup({
-  ui = {
-    -- currently only round theme
-    theme = 'round',
-    title = true,
-    -- border type can be single,double,rounded,solid,shadow.
-    border = 'rounded',
-    winblend = 0,
-    expand = '',
-    collapse = '',
-    preview = '  ',
-    code_action = ' ',
-    diagnostic = ' ',
-    incoming = ' ',
-    outgoing = ' ',
-    colors = {
-      --float window normal background color
-      normal_bg = 'none',
-      --title background color
-      title_bg = '#61afef',
-      red = '#f7585c',
-      magenta = '#b33076',
-      orange = '#FF8700',
-      yellow = '#fcc04f',
-      green = '#87cc9e',
-      cyan = '#36d0e0',
-      blue = '#61afef',
-      purple = '#CBA6F7',
-      white = '#ffffff',
-      black = '#1c1c19',
+    ui = {
+        -- currently only round theme
+        theme = 'round',
+        title = true,
+        -- border type can be single,double,rounded,solid,shadow.
+        border = 'rounded',
+        winblend = 0,
+        expand = '',
+        collapse = '',
+        preview = '  ',
+        code_action = ' ',
+        diagnostic = ' ',
+        incoming = ' ',
+        outgoing = ' ',
+        colors = {
+            --float window normal background color
+            normal_bg = 'none',
+            --title background color
+            title_bg = '#2d4f67',
+            red = '#c34043',
+            magenta = '#957fb8',
+            orange = '#e6c384',
+            yellow = '#c0a36e',
+            green = '#7aa89f',
+            cyan = '#7fb4ca',
+            blue = '#7e9cd8',
+            purple = '#938aa9',
+            white = '#c8c093',
+            black = '#090618',
+        },
     },
-  },
-  code_action = {
-    num_shortcut = true,
-    keys = {
-      -- string |table type
-      quit = 'q',
-      exec = '<CR>',
+    diagnostic = {
+        virtual_text = false,
+        on_insert = false,
     },
-  },
-  finder = {
-    edit = { 'o', '<CR>' },
-    vsplit = 's',
-    split = 'i',
-    tabe = 't',
-    quit = 'q',
-  },
-  definition = {
-    edit = '<C-c>o',
-    vsplit = '<C-c>v',
-    split = '<C-c>i',
-    tabe = '<C-c>t',
-    quit = 'q',
-    close = '<C-c>',
-  },
-  symbol_in_winbar = {
-    enable = true,
-    separator = '  ',
-    hide_keyword = true,
-    show_file = true,
-    folder_level = 2,
-    respect_root = false,
-    color_mode = true,
-  },
+    lightbulb = {
+        enable = false,
+        enable_in_insert = false,
+        sign = false,
+        sign_priority = 40,
+        virtual_text = false,
+    },
+    code_action = {
+        num_shortcut = true,
+        show_server_name = false,
+        extend_gitsigns = false,
+        keys = {
+            -- string |table type
+            quit = 'q',
+            exec = '<CR>',
+        },
+    },
+    finder = {
+        edit = { 'o', '<CR>' },
+        vsplit = 's',
+        split = 'i',
+        tabe = 't',
+        quit = 'q',
+    },
+    definition = {
+        edit = '<C-c>o',
+        vsplit = '<C-c>v',
+        split = '<C-c>i',
+        tabe = '<C-c>t',
+        quit = 'q',
+        close = '<C-c>',
+    },
+    symbol_in_winbar = {
+        enable = true,
+        separator = '  ',
+        hide_keyword = true,
+        show_file = true,
+        folder_level = 2,
+        respect_root = false,
+        color_mode = true,
+    },
 })
 
 local opts = { noremap = true, silent = true }
