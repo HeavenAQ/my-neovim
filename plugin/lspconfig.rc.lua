@@ -1,19 +1,8 @@
 local status, nvim_lsp = pcall(require, "lspconfig")
 if (not status) then return end
 
-local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
-local enable_format_on_save = function(_, bufnr)
-    vim.api.nvim_clear_autocmds({ group = augroup_format, buffer = bufnr })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup_format,
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr })
-        end,
-    })
-end
-
-local on_attach = function(client, bufnr)
+--vim.lsp.set_log_level("debug")
+local on_attach = function(_, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local opts = { noremap = true, silent = true }
 
@@ -36,7 +25,6 @@ nvim_lsp.lua_ls.setup {
     capabilities = capabilities,
     on_attach = function(client, bufnr)
         on_attach(client, bufnr)
-        enable_format_on_save(client, bufnr)
     end,
     settings = {
         Lua = {
@@ -55,7 +43,7 @@ nvim_lsp.lua_ls.setup {
 nvim_lsp.clangd.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    cmd = { "clangd", "--offset-encoding=utf-16", "--clang-tidy", "--enable-config" },
+    cmd = { "clangd", "--clang-tidy", "--offset-encoding=utf-16" },
     root_dir = function() return vim.loop.cwd() end,
 }
 
@@ -63,7 +51,8 @@ nvim_lsp.clangd.setup {
 nvim_lsp.html.setup {
     on_attach = on_attach,
     capabilities = capabilities,
-    filetypes = { 'html', 'htmldjango' }
+    filetypes = { 'html', 'htmldjango' },
+    cmd = { "pyright", "--stats" },
 }
 
 --python
@@ -95,6 +84,7 @@ nvim_lsp.sourcery.setup({
 
 nvim_lsp.tailwindcss.setup {
     on_attach = on_attach,
+    filetypes = { 'jsx', 'tsx', 'js', 'ts' },
     capabilities = capabilities
 }
 
@@ -104,10 +94,16 @@ nvim_lsp.bashls.setup {
     root_dir = function() return vim.loop.cwd() end,
 }
 
+nvim_lsp.rust_analyzer.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_dir = function() return vim.loop.cwd() end,
+}
+
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
         underline = true,
-        update_in_insert = false,
+        update_in_insert = true,
         virtual_text = { spacing = 4, prefix = "" },
         severity_sort = true,
     }
@@ -119,13 +115,3 @@ for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
-
-
-vim.diagnostic.config({
-    virtual_text = {
-        prefix = ''
-    },
-    float = {
-        source = "always", -- Or "if_many"
-    },
-})

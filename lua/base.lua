@@ -84,6 +84,12 @@ vim.api.nvim_create_autocmd("BufNewFile,BufRead", {
     command = "setlocal shiftwidth=2 tabstop=2"
 })
 
+-- align the entire file on save for norg files
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.norg',
+    command = "normal! mzgg=G`z"
+})
+
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:remove { 'o' } -- O and o, don't continue comments

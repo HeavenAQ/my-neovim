@@ -59,10 +59,7 @@ packer.startup(function(use)
     use "rebelot/kanagawa.nvim"
     use "donRaphaco/neotex"
     use "jmarkow/vim-matlab"
-    use {
-        'iamcco/markdown-preview.nvim',
-        run = 'cd app && yarn install'
-    }
+    use 'simrat39/rust-tools.nvim'
     use {
         "michaelb/sniprun", run = "bash ./install.sh"
     }

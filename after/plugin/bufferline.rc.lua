@@ -4,11 +4,8 @@ if (not status) then return end
 bufferline.setup({
   options = {
     mode = "tabs",
-    --indicator = {
-    --icon = " 直",
-    --},
     show_buffer_icons = false,
-    separator_style = "slant",
+    separator_style = "thick",
     always_show_bufferline = false,
     show_buffer_close_icons = false,
     show_close_icon = false,
