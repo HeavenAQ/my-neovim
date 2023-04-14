@@ -3,8 +3,6 @@ if (not status) then return end
 
 saga.setup({
     ui = {
-        -- currently only round theme
-        theme = 'round',
         title = true,
         -- border type can be single,double,rounded,solid,shadow.
         border = 'rounded',
@@ -97,5 +95,4 @@ vim.keymap.set("n", "<leader>cci", "<cmd>Lspsaga incoming_calls<CR>")
 vim.keymap.set("n", "<leader>cco", "<cmd>Lspsaga outgoing_calls<CR>")
 
 -- Float terminal
-vim.keymap.set({ "n", "t" }, "<C-g>", "<cmd>Lspsaga term_toggle<CR>")
 vim.keymap.set({ "n", "t" }, "<C-g>", "<cmd>Lspsaga term_toggle<CR>")

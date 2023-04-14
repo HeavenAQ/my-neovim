@@ -52,8 +52,8 @@ keymap.set('n', '<S-w>', ':bprevious<CR>')
 -- lsp
 keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
 
--- markdown settings
-keymap.set('n', '<leader>g', ':MarkdownPreview<CR>')
+-- go err check -> insert if err != nil { return err }
+keymap.set('n', '<leader>l', 'oif err != nil {\nreturn err \n}', { silent = true })
 
 -- Quick Compilation
 vim.cmd(([[
@@ -62,6 +62,7 @@ vim.cmd(([[
   autocmd FileType * let b:coc_suggest_disable = 1
   autocmd FileType c nmap <leader>w <cmd>! gcc %<cr>
   autocmd FileType c nmap <leader>e <cmd>! ./a.out<cr>
+  autocmd FileType go nmap <leader>e <cmd>! go run .<cr>
   autocmd FileType cpp nmap <leader>w <cmd>! g++ %<cr>
   autocmd FileType cpp nmap <leader>e <cmd>! ./a.out<cr>
 ]]))

@@ -67,6 +67,7 @@ function Color(color)
     vim.api.nvim_set_hl(0, "CursorLineNR", { fg = "#FF5D63" })
     vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#FF5D63", bg = "none" })
     vim.api.nvim_set_hl(0, "HarpoonBorder", { fg = "#FF5D63", bg = "none" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#AAB0D6", bg = "none" })
     vim.api.nvim_set_hl(0, "LineNR", { fg = "#AAB0D6", bg = "none" })
 end
 

@@ -1,31 +1,30 @@
-local status, nvim_lsp = pcall(require, "lspconfig")
+local status, nvim_lsp = pcall(require, "lsp-zero")
 if (not status) then return end
 
+nvim_lsp.preset("recommended")
+nvim_lsp.ensure_installed({
+    "bashls",
+    "clangd",
+    "cssls",
+    "dockerls",
+    "gopls",
+    "pyright",
+    "sourcery",
+    "tailwindcss",
+    "tsserver",
+    "astro",
+    "eslint",
+})
+
 --vim.lsp.set_log_level("debug")
-local on_attach = function(_, bufnr)
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local opts = { noremap = true, silent = true }
+nvim_lsp.on_attach(function(_, bufnr)
+    local opts = { buffer = bufnr, silent = true, remap = true }
+    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+end)
 
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-end
-
-
--- Set up completion using nvim_cmp with LSP source
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-nvim_lsp.tsserver.setup {
-    on_attach = on_attach,
-    filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-    cmd = { "typescript-language-server", "--stdio" },
-    capabilities = capabilities
-}
-
-nvim_lsp.lua_ls.setup {
-    capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        on_attach(client, bufnr)
-    end,
+-- Fix Undefined global 'vim'
+nvim_lsp.configure('lua-language-server', {
     settings = {
         Lua = {
             diagnostics = {
@@ -39,79 +38,86 @@ nvim_lsp.lua_ls.setup {
             },
         },
     },
-}
-nvim_lsp.clangd.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
+})
+
+-- set clangd offset-encoding to utf-16
+nvim_lsp.configure('clangd', {
     cmd = { "clangd", "--clang-tidy", "--offset-encoding=utf-16" },
-    root_dir = function() return vim.loop.cwd() end,
-}
+})
 
---html
-nvim_lsp.html.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    filetypes = { 'html', 'htmldjango' },
-    cmd = { "pyright", "--stats" },
-}
+-- Diagnostic symbols in the sign column (gutter)
+nvim_lsp.set_preferences({
+    suggest_lsp_server = false,
+    sign_icons = {
+        error = " ",
+        warn = " ",
+        hint = " ",
+        info = " "
+    }
+})
 
---python
-nvim_lsp.pyright.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-}
 
---gopls
-nvim_lsp.gopls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_dir = function() return vim.loop.cwd() end,
-}
-
-nvim_lsp.robotframework_ls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_dir = function() return vim.loop.cwd() end,
-}
-
-nvim_lsp.sourcery.setup({
-    init_options = {
-        token = 'user_d9P2twMyl7H2kLjwNBZVll8moWwuctO08KKdm70SREj_r6dV5CMtCCYDlxQ',
-        extension_version = 'vim.lsp',
-        editor_version = 'vim'
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = "",
+        spacing = 4,
+    },
+    underline = true,
+    update_in_insert = true,
+    float = {
+        source = "always",
     },
 })
 
-nvim_lsp.tailwindcss.setup {
-    on_attach = on_attach,
-    filetypes = { 'jsx', 'tsx', 'js', 'ts' },
-    capabilities = capabilities
-}
+-- Path: plugin/null-ls.rc.lua
+nvim_lsp.setup()
+local status3, null_ls = pcall(require, "null-ls")
+if (not status3) then return end
 
-nvim_lsp.bashls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_dir = function() return vim.loop.cwd() end,
-}
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_dir = function() return vim.loop.cwd() end,
-}
-
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        underline = true,
-        update_in_insert = true,
-        virtual_text = { spacing = 4, prefix = "" },
-        severity_sort = true,
-    }
-)
-
--- Diagnostic symbols in the sign column (gutter)
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-    local hl = "DiagnosticSign" .. type
-    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+local lsp_formatting = function(bufnr)
+    vim.lsp.buf.format({
+        filter = function(client)
+            return client.name == "null-ls"
+        end,
+        bufnr = bufnr,
+    })
 end
+
+null_ls.setup {
+    sources = {
+        null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.goimports,
+        null_ls.builtins.formatting.prettierd.with({
+            filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "markdown", "astro" },
+        }),
+        null_ls.builtins.formatting.clang_format.with({
+            extra_args = { "-style", "{BasedOnStyle: llvm, IndentWidth: 4, BreakBeforeBraces: Linux}" },
+        }),
+        null_ls.builtins.diagnostics.eslint_d.with({
+            diagnostics_format = '[eslint] #{m}\n(#{c})'
+        }),
+        null_ls.builtins.diagnostics.fish
+    },
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = augroup,
+                buffer = bufnr,
+                callback = function()
+                    lsp_formatting(bufnr)
+                end,
+            })
+        end
+    end
+}
+
+vim.api.nvim_create_user_command(
+    'DisableLspFormatting',
+    function()
+        vim.api.nvim_clear_autocmds({ group = augroup, buffer = 0 })
+    end,
+    { nargs = 0 }
+)

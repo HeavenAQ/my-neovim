@@ -12,27 +12,36 @@ packer.startup(function(use)
     use "nvim-lualine/lualine.nvim" -- Statusline
     use "nvim-lua/plenary.nvim"     -- Common utilities
     use "onsails/lspkind-nvim"      -- vscode-like pictograms
-    use "MunifTanjim/prettier.nvim" -- Prettier
 
     -- LSP Support
-    use "neovim/nvim-lspconfig"             -- Required
-    use "williamboman/mason.nvim"           -- Optional
-    use "williamboman/mason-lspconfig.nvim" -- Optional
+    use {
+        'VonHeikemen/lsp-zero.nvim',
+        branch = 'v1.x',
+        requires = {
+            -- LSP Support
+            { 'neovim/nvim-lspconfig' },
+            { 'williamboman/mason.nvim' },
+            { 'williamboman/mason-lspconfig.nvim' },
 
-    -- Autocompletion
-    use "hrsh7th/nvim-cmp"         -- Required
-    use "hrsh7th/cmp-nvim-lsp"     -- Required
-    use "hrsh7th/cmp-buffer"       -- Optional
-    use "hrsh7th/cmp-path"         -- Optional
-    use "saadparwaiz1/cmp_luasnip" -- Optional
-    use "hrsh7th/cmp-nvim-lua"     -- Optional
+            -- Autocompletion
+            { 'hrsh7th/nvim-cmp' },
+            { 'hrsh7th/cmp-buffer' },
+            { 'hrsh7th/cmp-path' },
+            { 'saadparwaiz1/cmp_luasnip' },
+            { 'hrsh7th/cmp-nvim-lsp' },
+            { 'hrsh7th/cmp-nvim-lua' },
+
+            -- Snippets
+            { 'L3MON4D3/LuaSnip' },
+            { 'rafamadriz/friendly-snippets' },
+        }
+    }
 
     -- Debugging
     use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
     use "folke/neodev.nvim"
 
     -- Snippets
-    use "L3MON4D3/LuaSnip"             -- Required
     use "glepnir/lspsaga.nvim"         -- LSP UIs
     use "kyazdani42/nvim-web-devicons" -- File icons
     use "nvim-telescope/telescope.nvim"
@@ -44,12 +53,8 @@ packer.startup(function(use)
     use "akinsho/nvim-bufferline.lua"
     use "preservim/nerdcommenter"
     use "mfukar/robotframework-vim"
-    use "nanotee/sqls.nvim"
-    use "jsborjesson/vim-uppercase-sql"
-    use "Vimjas/vim-python-pep8-indent"
-    use "lukas-reineke/indent-blankline.nvim"
     use "dkarter/bullets.vim"
-
+    use 'jose-elias-alvarez/null-ls.nvim'
     use "lewis6991/gitsigns.nvim"
     use "dinhhuy258/git.nvim" -- For git blame & browse
     use 'ThePrimeagen/git-worktree.nvim'
@@ -57,12 +62,7 @@ packer.startup(function(use)
     use "ThePrimeagen/harpoon"
     use "zbirenbaum/copilot.lua"
     use "rebelot/kanagawa.nvim"
-    use "donRaphaco/neotex"
-    use "jmarkow/vim-matlab"
-    use 'simrat39/rust-tools.nvim'
-    use {
-        "michaelb/sniprun", run = "bash ./install.sh"
-    }
+    use 'rush-rs/tree-sitter-asm'
     use {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
@@ -81,35 +81,18 @@ packer.startup(function(use)
         end,
     }
     use {
-        "ziontee113/color-picker.nvim",
-        config = function()
-            require("color-picker")
-        end,
-    }
-    use {
         "glacambre/firenvim",
         run = function()
             vim.fn["firenvim#install"](0)
         end,
     }
     use {
-        "nvim-neorg/neorg",
-        config = function()
-            require('neorg').setup {
-                load = {
-                    ["core.defaults"] = {},       -- Loads default behaviour
-                    ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-                    ["core.norg.dirman"] = {      -- Manages Neorg workspaces
-                        config = {
-                            workspaces = {
-                                notes = "~/notes",
-                            },
-                        },
-                    },
-                },
-            }
-        end,
-        run = ":Neorg sync-parsers",
-        requires = "nvim-lua/plenary.nvim",
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers", -- This is the important bit!
+    config = function()
+        require("neorg").setup {
+            -- configuration here
+        }
+    end,
     }
 end)
