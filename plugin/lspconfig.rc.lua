@@ -6,8 +6,8 @@ nvim_lsp.ensure_installed({
     "bashls",
     "clangd",
     "cssls",
-    "dockerls",
     "gopls",
+    "dockerls",
     "pyright",
     "sourcery",
     "tailwindcss",
@@ -19,7 +19,7 @@ nvim_lsp.ensure_installed({
 --vim.lsp.set_log_level("debug")
 nvim_lsp.on_attach(function(_, bufnr)
     local opts = { buffer = bufnr, silent = true, remap = true }
-    vim.keymap.set('n', 'gD', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set('n', 'fl', function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 end)
 
@@ -88,17 +88,17 @@ end
 null_ls.setup {
     sources = {
         null_ls.builtins.formatting.black,
+        null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.goimports,
         null_ls.builtins.formatting.prettierd.with({
             filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "markdown", "astro" },
         }),
         null_ls.builtins.formatting.clang_format.with({
-            extra_args = { "-style", "{BasedOnStyle: llvm, IndentWidth: 4, BreakBeforeBraces: Linux}" },
+            extra_args = { "-style", "{BasedOnStyle: google, IndentWidth: 4, BreakBeforeBraces: Linux}" },
         }),
         null_ls.builtins.diagnostics.eslint_d.with({
             diagnostics_format = '[eslint] #{m}\n(#{c})'
         }),
-        null_ls.builtins.diagnostics.fish
     },
     on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then

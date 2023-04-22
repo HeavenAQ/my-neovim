@@ -6,30 +6,6 @@ saga.setup({
         title = true,
         -- border type can be single,double,rounded,solid,shadow.
         border = 'rounded',
-        winblend = 0,
-        expand = '',
-        collapse = '',
-        preview = '  ',
-        code_action = ' ',
-        diagnostic = ' ',
-        incoming = ' ',
-        outgoing = ' ',
-        colors = {
-            --float window normal background color
-            normal_bg = 'none',
-            --title background color
-            title_bg = '#2d4f67',
-            red = '#c34043',
-            magenta = '#957fb8',
-            orange = '#e6c384',
-            yellow = '#c0a36e',
-            green = '#7aa89f',
-            cyan = '#7fb4ca',
-            blue = '#7e9cd8',
-            purple = '#938aa9',
-            white = '#c8c093',
-            black = '#090618',
-        },
     },
     diagnostic = {
         virtual_text = false,

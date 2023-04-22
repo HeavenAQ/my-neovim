@@ -27,6 +27,7 @@ vim.opt.autoindent = true
 vim.opt.wrap = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.fillchars = { vert = '»', fold = ' ' }
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
@@ -35,11 +36,18 @@ vim.opt.spell = true
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
+vim.cmd([[set list listchars=trail:»,tab:»-]])
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {
     pattern = '*',
     command = "set nopaste"
+})
+
+-- Auto indent neorg files on save 
+vim.api.nvim_create_autocmd("BufWritePost", {
+    pattern = '*.norg',
+    command = "normal mzgg=G`z"
 })
 
 
