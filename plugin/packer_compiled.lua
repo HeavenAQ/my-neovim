@@ -74,11 +74,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  ["Comment.nvim"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/Comment.nvim",
-    url = "https://github.com/numToStr/Comment.nvim"
-  },
   LuaSnip = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -118,6 +113,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/copilot.lua",
     url = "https://github.com/zbirenbaum/copilot.lua"
+  },
+  ["fcitx-vim-osx"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/fcitx-vim-osx",
+    url = "https://github.com/CodeFalling/fcitx-vim-osx"
   },
   firenvim = {
     loaded = true,
@@ -194,16 +194,20 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/neodev.nvim",
     url = "https://github.com/folke/neodev.nvim"
   },
-  neorg = {
-    config = { "\27LJ\2\nÎ\1\0\0\a\0\14\0\0196\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\f\0005\3\3\0004\4\0\0=\4\4\0034\4\0\0=\4\5\0035\4\t\0005\5\a\0005\6\6\0=\6\b\5=\5\n\4=\4\v\3=\3\r\2B\0\2\1K\0\1\0\tload\1\0\0\21core.norg.dirman\vconfig\1\0\0\15workspaces\1\0\0\1\0\1\nnotes\f~/notes\24core.norg.concealer\18core.defaults\1\0\0\nsetup\nneorg\frequire\0" },
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/neorg",
-    url = "https://github.com/nvim-neorg/neorg"
-  },
   nerdcommenter = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nerdcommenter",
     url = "https://github.com/preservim/nerdcommenter"
+  },
+  ["noice.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/noice.nvim",
+    url = "https://github.com/folke/noice.nvim"
+  },
+  ["nui.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nui.nvim",
+    url = "https://github.com/MunifTanjim/nui.nvim"
   },
   ["null-ls.nvim"] = {
     loaded = true,
@@ -245,6 +249,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
   },
+  ["nvim-notify"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-notify",
+    url = "https://github.com/rcarriga/nvim-notify"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
@@ -254,11 +263,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-ts-autotag",
     url = "https://github.com/windwp/nvim-ts-autotag"
-  },
-  ["nvim-ts-context-commentstring"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-ts-context-commentstring",
-    url = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
@@ -279,6 +283,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/robotframework-vim",
     url = "https://github.com/mfukar/robotframework-vim"
+  },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/rust-tools.nvim",
+    url = "https://github.com/simrat39/rust-tools.nvim"
   },
   ["telescope-file-browser.nvim"] = {
     loaded = true,
@@ -301,25 +310,15 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
     url = "https://github.com/folke/tokyonight.nvim"
   },
-  ["tree-sitter-asm"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/tree-sitter-asm",
-    url = "https://github.com/rush-rs/tree-sitter-asm"
-  },
-  ["vim-go"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-go",
-    url = "https://github.com/fatih/vim-go"
-  },
-  ["vim-matlab"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-matlab",
-    url = "https://github.com/jmarkow/vim-matlab"
-  },
   ["vim-surround"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-surround",
     url = "https://github.com/tpope/vim-surround"
+  },
+  ["vim-table-mode"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-table-mode",
+    url = "https://github.com/dhruvasagar/vim-table-mode"
   },
   ["zen-mode.nvim"] = {
     loaded = true,
@@ -333,10 +332,6 @@ time([[Defining packer_plugins]], false)
 time([[Config for todo-comments.nvim]], true)
 try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "todo-comments.nvim")
 time([[Config for todo-comments.nvim]], false)
--- Config for: neorg
-time([[Config for neorg]], true)
-try_loadstring("\27LJ\2\nÎ\1\0\0\a\0\14\0\0196\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\f\0005\3\3\0004\4\0\0=\4\4\0034\4\0\0=\4\5\0035\4\t\0005\5\a\0005\6\6\0=\6\b\5=\5\n\4=\4\v\3=\3\r\2B\0\2\1K\0\1\0\tload\1\0\0\21core.norg.dirman\vconfig\1\0\0\15workspaces\1\0\0\1\0\1\nnotes\f~/notes\24core.norg.concealer\18core.defaults\1\0\0\nsetup\nneorg\frequire\0", "config", "neorg")
-time([[Config for neorg]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

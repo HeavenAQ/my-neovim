@@ -61,8 +61,18 @@ packer.startup(function(use)
     use "tpope/vim-surround"
     use "ThePrimeagen/harpoon"
     use "zbirenbaum/copilot.lua"
+    use 'simrat39/rust-tools.nvim'
     use "rebelot/kanagawa.nvim"
-    use 'rush-rs/tree-sitter-asm'
+    use 'dhruvasagar/vim-table-mode'
+    use 'CodeFalling/fcitx-vim-osx'
+    -- Packer
+    use({
+      "folke/noice.nvim",
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+        }
+    })
     use {
         "folke/todo-comments.nvim",
         requires = "nvim-lua/plenary.nvim",
@@ -70,10 +80,6 @@ packer.startup(function(use)
         end,
     }
 
-    use {
-        "numToStr/Comment.nvim",
-        requires = { "JoosepAlviste/nvim-ts-context-commentstring", }
-    }
     use {
         "nvim-treesitter/nvim-treesitter",
         run = function()
@@ -85,14 +91,5 @@ packer.startup(function(use)
         run = function()
             vim.fn["firenvim#install"](0)
         end,
-    }
-    use {
-    "nvim-neorg/neorg",
-    run = ":Neorg sync-parsers", -- This is the important bit!
-    config = function()
-        require("neorg").setup {
-            -- configuration here
-        }
-    end,
     }
 end)

@@ -20,35 +20,6 @@ local function formatForTailwindCSS(entry, vim_item)
     return vim_item
 end
 
-local kind_icons = {
-    Text = "",
-    Method = "",
-    Function = "",
-    Constructor = "",
-    Field = "ﰠ",
-    Variable = "",
-    Class = "ﴯ",
-    Interface = "",
-    Module = "",
-    Property = "ﰠ",
-    Unit = "塞",
-    Value = "",
-    Enum = "",
-    Keyword = "",
-    Snippet = "",
-    Color = "",
-    File = "",
-    Reference = "",
-    Folder = "",
-    EnumMember = "",
-    Constant = "",
-    Struct = "פּ",
-    Event = "",
-    Operator = "",
-    TypeParameter = ""
-}
-
-
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
@@ -57,7 +28,10 @@ cmp.setup({
         end,
     },
     window = {
-        completion = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered({
+            border = "rounded",
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+        }),
         documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({

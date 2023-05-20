@@ -38,7 +38,7 @@ kanagawa.setup({
     undercurl = true, -- enable undercurls
     commentStyle = { italic = true },
     functionStyle = {},
-    keywordStyle = { bold = false },
+    keywordStyle = { bold = true },
     statementStyle = { bold = true },
     typeStyle = {},
     variablebuiltinStyle = { bold = false },
@@ -64,11 +64,15 @@ function Color(color)
     vim.cmd.colorscheme(color)
     vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
     vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    vim.api.nvim_set_hl(0, "CursorLineNR", { fg = "#FF5D63" })
     vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#FF5D63", bg = "none" })
     vim.api.nvim_set_hl(0, "HarpoonBorder", { fg = "#FF5D63", bg = "none" })
+    vim.api.nvim_set_hl(0, "@function.macro", { fg = "#FF5D63" })
     vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#AAB0D6", bg = "none" })
-    vim.api.nvim_set_hl(0, "LineNR", { fg = "#AAB0D6", bg = "none" })
+    vim.api.nvim_set_hl(0, "Search", { fg = "black", bg = "#FF9A59" })
+    vim.api.nvim_set_hl(0, "CurSearch", { fg = "black", bg = "#FF9A59" })
+    vim.api.nvim_set_hl(0, "FloatTitle", { fg = "#9BDDCC", bg = "none", bold = true })
+    vim.api.nvim_set_hl(0, "PmenuSel", { fg = "black", bg = "#9BDDCC" })
+    vim.api.nvim_set_hl(0, "Pmenu", { bg = "None" })
 end
 
 Color()
