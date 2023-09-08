@@ -17,7 +17,7 @@ vim.opt.cmdheight = 1
 vim.opt.laststatus = 2
 vim.opt.expandtab = true
 vim.opt.scrolloff = 8
-vim.opt.shell = 'fish'
+vim.opt.shell = 'zsh'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.inccommand = 'split'
 vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
@@ -42,12 +42,13 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     command = "set nopaste"
 })
 
--- Auto indent neorg files on save 
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = '*.norg',
-    command = "normal mzgg=G`z"
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "typescriptreact",
+	callback = function()
+		vim.opt_local.shiftwidth = 2
+		vim.opt_local.tabstop = 2
+	end
 })
-
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:remove { 'o' } -- O and o, don't continue comments

@@ -65,6 +65,12 @@ packer.startup(function(use)
     use "rebelot/kanagawa.nvim"
     use 'dhruvasagar/vim-table-mode'
     use 'CodeFalling/fcitx-vim-osx'
+    use { "catppuccin/nvim", as = "catppuccin" }
+    use 'iamcco/markdown-preview.nvim'
+    use 'nvim-treesitter/playground'
+    use 'tpope/vim-dadbod'
+    use 'kristijanhusak/vim-dadbod-ui'
+    use {"ellisonleao/glow.nvim", config = function() require("glow").setup() end}
     -- Packer
     use({
       "folke/noice.nvim",
