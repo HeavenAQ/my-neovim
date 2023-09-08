@@ -47,6 +47,7 @@ nvim_lsp.configure('clangd', {
     cmd = { "clangd", "--clang-tidy", "--offset-encoding=utf-16" },
 })
 
+
 nvim_lsp.configure('tailwindcss', {
  -- There add every filetype you want tailwind to work on
   filetypes = {
@@ -117,9 +118,10 @@ null_ls.setup {
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.goimports,
-        null_ls.builtins.formatting.markdownlint,
+        null_ls.builtins.formatting.pg_format,
+        null_ls.builtins.formatting.rustywind,
         null_ls.builtins.formatting.prettierd.with({
-            filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "markdown", "astro" },
+            filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "astro" },
         }),
         null_ls.builtins.formatting.clang_format.with({
             extra_args = { "-style", "{BasedOnStyle: llvm, IndentWidth: 4, BreakBeforeBraces: Linux}" },
@@ -158,11 +160,3 @@ null_ls.setup {
         end
     end
 }
-
-vim.api.nvim_create_user_command(
-    'DisableLspFormatting',
-    function()
-        vim.api.nvim_clear_autocmds({ group = augroup, buffer = 0 })
-    end,
-    { nargs = 0 }
-)
