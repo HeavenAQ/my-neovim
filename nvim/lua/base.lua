@@ -42,13 +42,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     command = "set nopaste"
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "typescriptreact",
-	callback = function()
-		vim.opt_local.shiftwidth = 2
-		vim.opt_local.tabstop = 2
-	end
-})
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:remove { 'o' } -- O and o, don't continue comments

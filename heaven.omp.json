@@ -1,0 +1,150 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "blocks": [
+    {
+      "alignment": "left",
+      "segments": [
+        {
+          "foreground": "#88c0d0",
+          "foreground_templates": ["{{ if .Root }}lightRed{{ end }}"],
+          "properties": {
+            "display_host": true
+          },
+          "style": "plain",
+          "template": "<#5e81ac>\u250c\u2500\u2500(</>{{ .UserName }}㉿{{ .HostName }}<#5e81ac>)</>",
+          "type": "session"
+        },
+        {
+          "foreground": "#1abc9d",
+          "properties": {
+            "fetch_stash_count": true,
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          },
+          "style": "plain",
+          "template": "<#5e81ac>-[</>{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<#8fbcbb> \u25cf </>{{ end }}{{ if .Staging.Changed }}<#88c0d0> \u25cf </>{{ end }}<#5e81ac></>",
+          "type": "git"
+        },
+        {
+          "foreground": "#1abc9d",
+          "style": "plain",
+          "template": "<#5e81ac>-[</>{{.Profile}}{{if .Region}}@{{.Region}}{{end}}<#5e81ac>]</>",
+          "type": "aws"
+        },
+        {
+          "foreground": "#1abc9d",
+          "style": "plain",
+          "template": "<#5e81ac>-[</>{{.Context}}{{if .Namespace}} :: {{.Namespace}}{{end}}<#5e81ac>]</>",
+          "type": "kubectl"
+        },
+        {
+          "foreground": "#d8dee9",
+          "style": "plain",
+          "template": "<#5e81ac>[</>\uf0e7<#5e81ac>]</>",
+          "type": "root"
+        },
+        {
+          "foreground": "#d8dee9",
+          "style": "plain",
+          "template": "<#5e81ac>[x</>{{ reason .Code }}<#5e81ac>]</>",
+          "type": "status"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "right",
+      "segments": [
+        {
+          "foreground": "red",
+          "style": "plain",
+          "template": "| root ",
+          "type": "root"
+        },
+        {
+          "foreground": "#06A4CE",
+          "style": "powerline",
+          "template": "| \ue798 {{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }} ",
+          "type": "dart"
+        },
+        {
+          "foreground": "#6CA35E",
+          "style": "powerline",
+          "template": "| \ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }} ",
+          "type": "node"
+        },
+        {
+          "foreground": "#4584b6",
+          "properties": {
+            "display_mode": "context",
+            "fetch_virtual_env": true
+          },
+          "style": "plain",
+          "template": "| \ue235 {{ .Venv }} ",
+          "type": "python"
+        },
+        {
+          "foreground_templates": [
+            "{{if eq \"Charging\" .State.String}}#45F1C2{{end}}",
+            "{{if eq \"Discharging\" .State.String}}#40c4ff{{end}}",
+            "{{if eq \"Full\" .State.String}}#ff0000{{end}}"
+          ],
+          "invert_powerline": true,
+          "properties": {
+            "charged_icon": "\uf00d ",
+            "charging_icon": "\ue234 "
+          },
+          "style": "powerline",
+          "template": "| {{ if not .Error }}{{ .Icon }}{{ .Percentage }}{{ end }}{{ .Error }} \uf295 ",
+          "type": "battery"
+        },
+        {
+          "foreground": "lightGreen",
+          "style": "plain",
+          "template": "| {{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "foreground": "#88c0d0",
+          "properties": {
+            "style": "full"
+          },
+          "style": "plain",
+          "template": "<#5e81ac>└─[</>{{ .Path }}<#5e81ac>]</>",
+          "type": "path"
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "shell",
+          "style": "plain",
+          "foreground": "#E06C75",
+          "properties": {
+            "mapped_shell_names": {
+              "pwsh": "Shell",
+              "powershell": "Shell",
+              "cmd": "Cmd",
+              "bash": "Bash"
+            }
+          },
+          "template": " <#45F1C2><b>\u26a1</b></><b> {{ .Name }}</b> <#26C6DA>\u276f</><#45F1C2>\u276f</>"
+        }
+      ],
+      "type": "prompt"
+    }
+  ],
+  "final_space": true,
+  "version": 2
+}

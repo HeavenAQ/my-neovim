@@ -120,6 +120,7 @@ null_ls.setup {
         null_ls.builtins.formatting.goimports,
         null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.rustywind,
+        null_ls.builtins.diagnostics.pydocstyle,
         null_ls.builtins.formatting.prettierd.with({
             filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "astro" },
         }),

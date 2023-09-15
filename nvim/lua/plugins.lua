@@ -70,7 +70,6 @@ packer.startup(function(use)
     use 'nvim-treesitter/playground'
     use 'tpope/vim-dadbod'
     use 'kristijanhusak/vim-dadbod-ui'
-    use {"ellisonleao/glow.nvim", config = function() require("glow").setup() end}
     -- Packer
     use({
       "folke/noice.nvim",
