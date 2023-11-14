@@ -9,7 +9,8 @@ packer.startup(function(use)
     use "wbthomason/packer.nvim"
     use "marko-cerovac/material.nvim"
     use "folke/tokyonight.nvim"
-    use "nvim-lualine/lualine.nvim" -- Statusline
+    use 'feline-nvim/feline.nvim'
+    use 'nvim-lualine/lualine.nvim'
     use "nvim-lua/plenary.nvim"     -- Common utilities
     use "onsails/lspkind-nvim"      -- vscode-like pictograms
 
@@ -42,7 +43,7 @@ packer.startup(function(use)
     use "folke/neodev.nvim"
 
     -- Snippets
-    use "glepnir/lspsaga.nvim"         -- LSP UIs
+    use "nvimdev/lspsaga.nvim"         -- LSP UIs
     use "kyazdani42/nvim-web-devicons" -- File icons
     use "nvim-telescope/telescope.nvim"
     use "nvim-telescope/telescope-file-browser.nvim"
@@ -70,21 +71,16 @@ packer.startup(function(use)
     use 'nvim-treesitter/playground'
     use 'tpope/vim-dadbod'
     use 'kristijanhusak/vim-dadbod-ui'
-    -- Packer
+    use 'RaafatTurki/hex.nvim'
+    use 'segeljakt/vim-silicon'
+    use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" },}
     use({
-      "folke/noice.nvim",
-      requires = {
-        "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
+        "folke/noice.nvim",
+        requires = {
+            "MunifTanjim/nui.nvim",
+            "rcarriga/nvim-notify",
         }
     })
-    use {
-        "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
-        config = function()
-        end,
-    }
-
     use {
         "nvim-treesitter/nvim-treesitter",
         run = function()
@@ -97,4 +93,5 @@ packer.startup(function(use)
             vim.fn["firenvim#install"](0)
         end,
     }
+
 end)

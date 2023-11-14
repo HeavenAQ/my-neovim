@@ -9,7 +9,6 @@ nvim_lsp.ensure_installed({
     "gopls",
     "dockerls",
     "pyright",
-    "sourcery",
     "tailwindcss",
     "tsserver",
     "astro",
@@ -120,10 +119,8 @@ null_ls.setup {
         null_ls.builtins.formatting.goimports,
         null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.rustywind,
-        null_ls.builtins.diagnostics.pydocstyle,
-        null_ls.builtins.formatting.prettierd.with({
-            filetypes = { "css", "html", "json", "javascript", "javascriptreact", "typescript", "typescriptreact", "svelte", "vue", "yaml", "astro" },
-        }),
+        null_ls.builtins.code_actions.eslint,
+        null_ls.builtins.formatting.prettier, 
         null_ls.builtins.formatting.clang_format.with({
             extra_args = { "-style", "{BasedOnStyle: llvm, IndentWidth: 4, BreakBeforeBraces: Linux}" },
         }),

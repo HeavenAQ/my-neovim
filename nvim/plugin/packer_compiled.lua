@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?/init.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?.lua;/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/heavenchen/.cache/nvim/packer_hererocks/2.1.1697887905/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -124,6 +124,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/fcitx-vim-osx",
     url = "https://github.com/CodeFalling/fcitx-vim-osx"
   },
+  ["feline.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/feline.nvim",
+    url = "https://github.com/feline-nvim/feline.nvim"
+  },
   firenvim = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/firenvim",
@@ -154,6 +159,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/ThePrimeagen/harpoon"
   },
+  ["hex.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/hex.nvim",
+    url = "https://github.com/RaafatTurki/hex.nvim"
+  },
   ["kanagawa.nvim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/kanagawa.nvim",
@@ -172,7 +182,7 @@ _G.packer_plugins = {
   ["lspsaga.nvim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/lspsaga.nvim",
-    url = "https://github.com/glepnir/lspsaga.nvim"
+    url = "https://github.com/nvimdev/lspsaga.nvim"
   },
   ["lualine.nvim"] = {
     loaded = true,
@@ -294,6 +304,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
   },
+  ["rest.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/rest.nvim",
+    url = "https://github.com/rest-nvim/rest.nvim"
+  },
   ["robotframework-vim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/robotframework-vim",
@@ -314,12 +329,6 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["todo-comments.nvim"] = {
-    config = { "\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0" },
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/todo-comments.nvim",
-    url = "https://github.com/folke/todo-comments.nvim"
-  },
   ["tokyonight.nvim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
@@ -335,10 +344,10 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-dadbod-ui",
     url = "https://github.com/kristijanhusak/vim-dadbod-ui"
   },
-  ["vim-pydocstring"] = {
+  ["vim-silicon"] = {
     loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-pydocstring",
-    url = "https://github.com/heavenshell/vim-pydocstring"
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/vim-silicon",
+    url = "https://github.com/segeljakt/vim-silicon"
   },
   ["vim-surround"] = {
     loaded = true,
@@ -358,10 +367,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: todo-comments.nvim
-time([[Config for todo-comments.nvim]], true)
-try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "todo-comments.nvim")
-time([[Config for todo-comments.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
