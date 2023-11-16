@@ -7,12 +7,18 @@ vim.cmd([[packadd packer.nvim]])
 
 packer.startup(function(use)
     use "wbthomason/packer.nvim"
-    use "marko-cerovac/material.nvim"
+
+    -- UI
     use "folke/tokyonight.nvim"
     use 'feline-nvim/feline.nvim'
-    use 'nvim-lualine/lualine.nvim'
+    use 'RRethy/vim-illuminate'
     use "nvim-lua/plenary.nvim"     -- Common utilities
     use "onsails/lspkind-nvim"      -- vscode-like pictograms
+    use 'echasnovski/mini.nvim'
+    use "nvimdev/lspsaga.nvim"         -- LSP UIs
+    use "akinsho/nvim-bufferline.lua"
+    use "preservim/nerdcommenter"
+    use "folke/neodev.nvim"
 
     -- LSP Support
     use {
@@ -37,13 +43,12 @@ packer.startup(function(use)
             { 'rafamadriz/friendly-snippets' },
         }
     }
+    use  {"folke/trouble.nvim", requires ={"nvim-tree/nvim-web-devicons"}}
 
     -- Debugging
     use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-    use "folke/neodev.nvim"
 
     -- Snippets
-    use "nvimdev/lspsaga.nvim"         -- LSP UIs
     use "kyazdani42/nvim-web-devicons" -- File icons
     use "nvim-telescope/telescope.nvim"
     use "nvim-telescope/telescope-file-browser.nvim"
@@ -51,8 +56,6 @@ packer.startup(function(use)
     use "windwp/nvim-ts-autotag"
     use "norcalli/nvim-colorizer.lua"
     use "folke/zen-mode.nvim"
-    use "akinsho/nvim-bufferline.lua"
-    use "preservim/nerdcommenter"
     use "mfukar/robotframework-vim"
     use "dkarter/bullets.vim"
     use 'jose-elias-alvarez/null-ls.nvim'
@@ -74,6 +77,14 @@ packer.startup(function(use)
     use 'RaafatTurki/hex.nvim'
     use 'segeljakt/vim-silicon'
     use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" },}
+    use {"folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
+    use {
+        "kevinhwang91/nvim-ufo",
+        requires = {
+            "kevinhwang91/promise-async",
+            "luukvbaal/statuscol.nvim",
+        }
+    }
     use({
         "folke/noice.nvim",
         requires = {
