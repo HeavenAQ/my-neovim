@@ -19,6 +19,7 @@ packer.startup(function(use)
     use "akinsho/nvim-bufferline.lua"
     use "preservim/nerdcommenter"
     use "folke/neodev.nvim"
+    use "ARM9/arm-syntax-vim"
 
     -- LSP Support
     use {
@@ -78,6 +79,9 @@ packer.startup(function(use)
     use 'segeljakt/vim-silicon'
     use { "rest-nvim/rest.nvim", requires = { "nvim-lua/plenary.nvim" },}
     use {"folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
+    --use 'luk400/vim-jukit'
+    use 'APZelos/blamer.nvim'
+
     use {
         "kevinhwang91/nvim-ufo",
         requires = {

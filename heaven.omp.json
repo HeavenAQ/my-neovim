@@ -24,18 +24,13 @@
       "alignment": "left",
       "segments": [
         {
-          "foreground": "#B6D6F2",
-          "leading_diamond": "<#D6DEEB>╭─</> <p:terminal-blue>\uf07b </><#B6D6F2> in </>",
+          "type": "path",
+          "style": "plain",
+          "foreground": "p:terminal-blue",
           "properties": {
-            "folder_icon": " \uf07c ",
-            "folder_separator_icon": " \uf061 ",
-            "home_icon": "\ueb06 ",
-            "style": "agnoster_short",
-            "max_depth": 3
+            "style": "full"
           },
-          "style": "diamond",
-          "template": " {{ .Path }} ",
-          "type": "path"
+          "template": "<b>{{ .Path }}</b> <p:light-sky-blue>\u26a1</> "
         },
         {
           "type": "git",
@@ -47,7 +42,7 @@
             "{{ if gt .Ahead 0 }}p:terminal-blue{{ end }}",
             "{{ if gt .Behind 0 }}p:celeste-blue{{ end }}"
           ],
-          "template": "( {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#CAEBE1> \uf046 {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }} \ueb4b {{ .StashCount }}{{ end }} )",
+          "template": "({{ .HEAD}})",
           "properties": {
             "fetch_status": true,
             "branch_icon": "\ue725 "
@@ -119,19 +114,10 @@
       "newline": true,
       "segments": [
         {
-          "foreground": "#D6DEEB",
+          "foreground": "p:pistachio-green",
           "style": "plain",
-          "template": "\u2570\u2500",
+          "template": "\u25b6",
           "type": "text"
-        },
-        {
-          "foreground": "#D6DEEB",
-          "properties": {
-            "always_enabled": true
-          },
-          "style": "plain",
-          "template": "\u276f ",
-          "type": "status"
         }
       ],
       "type": "prompt"

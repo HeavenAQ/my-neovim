@@ -65,5 +65,8 @@ function Color(color)
     vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#AAB0D6", bg = "none" })
     vim.api.nvim_set_hl(0, "FloatTitle", { fg = "#9BDDCC", bg = "none", bold = true })
     vim.api.nvim_set_hl(0, "Pmenu", { bg = "None" })
+    vim.cmd([[
+        au BufNewFile,BufRead *.s,*.S set filetype=arm " arm = armv6/7
+    ]])
 end
 Color("tokyonight")

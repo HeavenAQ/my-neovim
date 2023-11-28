@@ -79,6 +79,16 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["arm-syntax-vim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/arm-syntax-vim",
+    url = "https://github.com/ARM9/arm-syntax-vim"
+  },
+  ["blamer.nvim"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/blamer.nvim",
+    url = "https://github.com/APZelos/blamer.nvim"
+  },
   ["bullets.vim"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/bullets.vim",

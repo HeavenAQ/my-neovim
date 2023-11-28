@@ -25,7 +25,7 @@ nvim_lsp.on_attach(function(bufnr)
 end)
 
 -- Fix Undefined global 'vim'
-nvim_lsp.configure('lua-language-server', {
+nvim_lsp.configure('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
@@ -71,19 +71,27 @@ nvim_lsp.configure('tailwindcss', {
   },
 })
 
+nvim_lsp.configure('asm_lsp', {
+    filetypes = { "asm", "s", "S" },
+})
+
 
 -- Diagnostic symbols in the sign column (gutter)
 nvim_lsp.set_preferences({
     suggest_lsp_server = false,
     sign_icons = {
-        error = " ",
-        warn = " ",
-        hint = " ",
+        error = " ",
+        warn = " ",
+        hint = " ",
         info = " "
-    }
+    },
 })
 
 
+-- Path: plugin/null-ls.rc.lua
+nvim_lsp.setup()
+
+-- override default diagnostic symbols
 vim.diagnostic.config({
     virtual_text = {
         prefix = "",
@@ -96,8 +104,6 @@ vim.diagnostic.config({
     },
 })
 
--- Path: plugin/null-ls.rc.lua
-nvim_lsp.setup()
 local status3, null_ls = pcall(require, "null-ls")
 if (not status3) then return end
 
@@ -120,7 +126,8 @@ null_ls.setup {
         null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.rustywind,
         null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.formatting.prettier, 
+        null_ls.builtins.formatting.prettier,
+        null_ls.builtins.diagnostics.clang_check,
         null_ls.builtins.formatting.clang_format.with({
             extra_args = { "-style", "{BasedOnStyle: llvm, IndentWidth: 4, BreakBeforeBraces: Linux}" },
         }),
