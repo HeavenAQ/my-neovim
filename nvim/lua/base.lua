@@ -27,10 +27,14 @@ vim.opt.autoindent = true
 vim.opt.wrap = true
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftround = true
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.spell = true
+vim.opt.cindent = true
+vim.opt.cinoptions = { 'l1', 'g0', 'i0' }
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -43,13 +47,12 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 })
 
 
--- Add asterisks in block comments
 vim.opt.formatoptions:remove { 'o' } -- O and o, don't continue comments
 vim.opt.formatoptions:append { 'r' }
 
 -- neovide
 if vim.g.neovide then
-    vim.o.guifont = "FantasqueSansMono Nerd Font:h12" -- text below applies for VimScript
+    vim.o.guifont = "Cascursive:h13" -- text below applies for VimScript
 
     -- Helper function for transparency formatting
     local alpha = function()

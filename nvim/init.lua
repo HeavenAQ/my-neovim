@@ -18,6 +18,9 @@ for _, group in ipairs(vim.fn.getcompletion("@lsp", "highlight")) do
         vim.api.nvim_set_hl(0, group, {})
 end
 
+-- setup filetype
+vim.cmd([[autocmd BufNewFile,BufRead *.asm setfiletype nasm]])
+
 -- set python provider
 vim.g.python3_host_prog = '/opt/homebrew/bin/python'
 vim.g.loaded_ruby_provider = 0

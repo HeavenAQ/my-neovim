@@ -12,7 +12,7 @@ keymap.set('n', '-', '<C-x>')
 keymap.set('n', '<C-a>', 'gg<S-v>G')
 
 -- Save with root permission (not working for now)
---vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
+-- vim.api.nvim_create_user_command('W', 'w !sudo tee > /dev/null %', {})
 
 -- Page up and down
 keymap.set('n', '<C-d>', '<C-d>zz')
@@ -45,15 +45,18 @@ keymap.set('n', '<C-w><down>', '<C-w>-')
 -- Core
 vim.g.mapleader = ","
 keymap.set('n', '\\', ':NvimTreeFindFileToggle<CR>')
-keymap.set('n', '<leader><leader>', ':noh<CR>', { silent = true })
+keymap.set('n', '<leader><leader>', ':noh<CR>', {silent = true})
 keymap.set('n', '<S-e>', ':bnext<CR>')
 keymap.set('n', '<S-w>', ':bprevious<CR>')
 
+-- latex math
+keymap.set('n', '<leader>p', function() require('nabla').popup() end)
+
 -- lsp
-keymap.set('n', '<leader>z', ':LspRestart<CR>', { silent = true })
+keymap.set('n', '<leader>z', ':LspRestart<CR>', {silent = true})
 
 -- go err check -> insert if err != nil { return err }
-keymap.set('n', '<leader>l', 'oif err != nil {\nreturn err \n}', { silent = true })
+keymap.set('n', '<leader>l', 'oif err != nil {\nreturn err \n}', {silent = true})
 
 -- Quick Compilation
 vim.cmd(([[

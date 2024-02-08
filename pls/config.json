@@ -1,0 +1,50 @@
+{
+  "user_name": "heaven",
+  "initial_setup_done": true,
+  "show_task_progress": true,
+  "show_quotes": true,
+  "tasks": [
+    {
+      "name": "[white](queued)[/]   [red]<HIGH>[/]   [white on #3D59A1][b][COURSE][/][/]   Linear Algebra - Projections and Orthogonalization",
+      "status": 0,
+      "priority": 1,
+      "type": 0,
+      "done": false
+    },
+    {
+      "name": "[white](queued)[/]   [yellow]<MID>[/]    [white on #3D59A1][b][RESEARCH][/][/] :hammer: Deploy nstc and moe linebot to google cloud run",
+      "status": 0,
+      "priority": 2,
+      "type": 2,
+      "done": false
+    },
+    {
+      "name": "[yellow](pending)[/]  [blue]<LOW>[/]    [white on #3D59A1][b][VIVIAN][/][/]   :lipstick: Buy cosmetics",
+      "status": 2,
+      "priority": 3,
+      "type": 0,
+      "done": false
+    },
+    {
+      "name": "[white](queued)[/]   [blue]<LOW>[/]    [white on #3D59A1][b][OTHER][/][/]    :shopping_cart: Buy souvenirs in Kyoto",
+      "status": 0,
+      "priority": 3,
+      "type": 6,
+      "done": false
+    },
+    {
+      "name": "[white](queued)[/]   [blue]<LOW>[/]    [white on #3D59A1][b][PROJECT][/][/]  :hammer: Build rust backend framework uranus",
+      "status": 0,
+      "priority": 3,
+      "type": 1,
+      "done": false
+    },
+    {
+      "name": "[white](queued)[/]   [blue]<LOW>[/]    [white on #3D59A1][b][PROJECT][/][/]  :hammer: Build a simple os in rust",
+      "status": 0,
+      "priority": 3,
+      "type": 1,
+      "done": false
+    }
+  ]
+}

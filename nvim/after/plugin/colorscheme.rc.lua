@@ -65,6 +65,15 @@ function Color(color)
     vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#AAB0D6", bg = "none" })
     vim.api.nvim_set_hl(0, "FloatTitle", { fg = "#9BDDCC", bg = "none", bold = true })
     vim.api.nvim_set_hl(0, "Pmenu", { bg = "None" })
+    -- highlight words during visual mode
+    vim.api.nvim_set_hl(0, "Visual", { bg = "#ffffff" })
+    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1c1c1c" })
+    vim.api.nvim_set_hl(0, "LineNr", { fg = "#717161" })
+    -- disable winbar color
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+
+    -- change comment colors
+    vim.api.nvim_set_hl(0, "Comment", { fg = "#717161", italic = true })
     vim.cmd([[
         au BufNewFile,BufRead *.s,*.S set filetype=arm " arm = armv6/7
     ]])
