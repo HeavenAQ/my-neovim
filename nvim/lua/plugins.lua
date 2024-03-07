@@ -71,11 +71,8 @@ packer.startup(function(use)
     use 'RaafatTurki/hex.nvim'
     use 'segeljakt/vim-silicon'
     use 'michaelb/sniprun'
-    use {
-        "AckslD/nvim-neoclip.lua",
-        requires = {{'nvim-telescope/telescope.nvim'}},
-        config = function() require('neoclip').setup() end
-    }
+    use "AckslD/nvim-neoclip.lua"
+    use {'marioortizmanero/adoc-pdf-live.nvim'}
     use {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
@@ -105,5 +102,4 @@ packer.startup(function(use)
         "glacambre/firenvim",
         run = function() vim.fn["firenvim#install"](0) end
     }
-
 end)
