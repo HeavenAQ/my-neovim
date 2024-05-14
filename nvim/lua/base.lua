@@ -34,6 +34,9 @@ vim.opt.wildignore:append{'*/node_modules/*'}
 vim.opt.spell = true
 vim.opt.cindent = true
 vim.opt.cinoptions = {'l1', 'g0', 'i0'}
+vim.opt.cursorcolumn = true
+vim.opt.termguicolors = true
+vim.opt.rtp:append{'/opt/homebrew/opt/fzf'}
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -48,8 +51,21 @@ vim.opt.formatoptions:append{'r'}
 
 -- Define a custom sign with a right arrow
 vim.cmd [[
-  sign define currentline text=➜ texthl=Keyword
+  sign define currentline text=󰆧 texthl=Keyword
 ]]
+
+-- Config tabwidth when editing js related files
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = {
+        'javascript', 'typescript', 'typescriptreact', 'html', 'css', 'scss',
+        'json', 'yaml', 'markdown', 'astro'
+    },
+    callback = function()
+        vim.opt_local.tabstop = 2
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.softtabstop = 2
+    end
+})
 
 local function update_line_indicator()
     -- Remove existing signs to clear previous indicators

@@ -40,11 +40,13 @@ packer.startup(function(use)
     use {"folke/trouble.nvim", requires = {"nvim-tree/nvim-web-devicons"}}
 
     -- Debugging
-    use {"rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}}
+    use {
+        "rcarriga/nvim-dap-ui",
+        requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"}
+    }
     use "p00f/clangd_extensions.nvim"
 
     -- Snippets
-    use 'HiPhish/rainbow-delimiters.nvim'
     use "kyazdani42/nvim-web-devicons" -- File icons
     use "nvim-telescope/telescope.nvim"
     use "nvim-telescope/telescope-file-browser.nvim"
@@ -70,15 +72,19 @@ packer.startup(function(use)
     use 'kristijanhusak/vim-dadbod-ui'
     use 'RaafatTurki/hex.nvim'
     use 'segeljakt/vim-silicon'
-    use 'michaelb/sniprun'
     use "AckslD/nvim-neoclip.lua"
-    use {'marioortizmanero/adoc-pdf-live.nvim'}
+    use 'ray-x/go.nvim'
+    use 'ray-x/guihua.lua'
+    use 'theHamsta/nvim-dap-virtual-text'
+    use {
+        "nvim-zh/colorful-winsep.nvim",
+        config = function() require('colorful-winsep').setup() end
+    }
     use {
         "ThePrimeagen/harpoon",
         branch = "harpoon2",
         requires = {{"nvim-lua/plenary.nvim"}}
     }
-    use {"rest-nvim/rest.nvim", requires = {"nvim-lua/plenary.nvim"}}
     use {"folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim"}
     use {
         'nvim-lualine/lualine.nvim',

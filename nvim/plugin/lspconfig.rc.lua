@@ -35,7 +35,6 @@ nvim_lsp.configure('lua_ls', {
 })
 
 -- custom config for lsp 
-
 -- clangd
 nvim_lsp.configure('clangd', {
     cmd = {
@@ -51,7 +50,7 @@ nvim_lsp.configure('tailwindcss', {
     filetypes = {
         "css", "scss", "sass", "postcss", "html", "javascript",
         "javascriptreact", "typescript", "typescriptreact", "svelte", "vue",
-        "rust"
+        "rust", "astro"
     },
     init_options = {
         -- There you can set languages to be considered as different ones by tailwind lsp I guess same as includeLanguages in VSCod
@@ -98,8 +97,15 @@ null_ls.setup {
         null_ls.builtins.formatting.pg_format,
         null_ls.builtins.formatting.rustywind,
         null_ls.builtins.code_actions.eslint,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.diagnostics.clang_check,
+        null_ls.builtins.formatting.prettierd.with({
+            extra_args = {"--config-precedence", "prefer-file"}
+        }), null_ls.builtins.formatting.prettier.with({
+            filetypes = {
+                "html", "json", "yaml", "markdown", "css", "scss", "javascript",
+                "typescript", "vue", "svelte", "astro", "typescriptreact",
+                "javascriptreact"
+            }
+        }), null_ls.builtins.diagnostics.clang_check,
         null_ls.builtins.formatting.lua_format,
         null_ls.builtins.formatting.clang_format.with({
             extra_args = {

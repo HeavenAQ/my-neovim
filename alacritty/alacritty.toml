@@ -1,0 +1,11 @@
+import = ["~/.config/alacritty/caputtin.toml"]
+
+[window]
+    padding = { x= 3, y= 7 }
+    decorations = "buttonless"
+    opacity = 0.8
+
+[font]
+    normal = {family = "JetBrainsMono Nerd Font", style="Bold Italic"}
+    size = 12
+    offset = { x= 0, y= 4 }

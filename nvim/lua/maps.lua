@@ -60,7 +60,7 @@ keymap.set('n', '<leader>l', 'oif err != nil {\nreturn err \n}', {silent = true}
 
 -- Quick Compilation
 vim.cmd(([[
-  autocmd FileType python nmap <leader>e <cmd>! python % <cr>
+  autocmd FileType python nmap <leader>e <cmd>! python3 % <cr>
   autocmd FileType robot nmap <leader>g <cmd>! robotidy *robot <cr>
   autocmd FileType * let b:coc_suggest_disable = 1
   autocmd FileType c nmap <leader>w <cmd>! gcc %<cr>
