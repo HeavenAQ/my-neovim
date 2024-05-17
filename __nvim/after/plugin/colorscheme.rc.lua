@@ -61,5 +61,8 @@ function Color(color)
     -- remove background color for git signs and fold column
     vim.api.nvim_set_hl(0, "SignColumn", {bg = "none"})
     vim.api.nvim_set_hl(0, "FoldColumn", {bg = "none"})
+
+    -- custom some tree-sitter highlight
+    vim.api.nvim_set_hl(0, "@variable.parameter", {fg = "#FFE073"})
 end
 Color("tokyonight-night")

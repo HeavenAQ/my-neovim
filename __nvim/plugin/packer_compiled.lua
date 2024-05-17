@@ -315,6 +315,11 @@ _G.packer_plugins = {
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-notify",
     url = "https://github.com/rcarriga/nvim-notify"
   },
+  ["nvim-tree.lua"] = {
+    loaded = true,
+    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
+    url = "https://github.com/nvim-tree/nvim-tree.lua"
+  },
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
@@ -374,11 +379,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/statuscol.nvim",
     url = "https://github.com/luukvbaal/statuscol.nvim"
-  },
-  ["telescope-file-browser.nvim"] = {
-    loaded = true,
-    path = "/Users/heavenchen/.local/share/nvim/site/pack/packer/start/telescope-file-browser.nvim",
-    url = "https://github.com/nvim-telescope/telescope-file-browser.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,

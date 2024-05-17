@@ -49,6 +49,15 @@ keymap.set('n', '<leader><leader>', ':noh<CR>', {silent = true})
 keymap.set('n', '<S-e>', ':bnext<CR>')
 keymap.set('n', '<S-w>', ':bprevious<CR>')
 
+-- Telescope
+keymap.set('n', '<leader>ff', ':Telescope find_files<cr>')
+keymap.set('n', '<leader>fg', ':Telescope live_grep<cr>')
+keymap.set('n', '<leader>fb', ':Telescope buffers<cr>')
+keymap.set('n', '<leader>fh', ':Telescope help_tags<cr>')
+keymap.set('n', '<leader>fc', ':Telescope colorscheme<cr>')
+keymap.set('n', '<leader>fm', ':Telescope harpoon marks<cr>')
+keymap.set('n', '<leader>fy', ':Telescope neoclip a extra=star,plus,unnamed<cr>')
+
 -- latex math
 keymap.set('n', '<leader>p', function() require('nabla').popup() end)
 

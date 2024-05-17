@@ -49,7 +49,7 @@ packer.startup(function(use)
     -- Snippets
     use "kyazdani42/nvim-web-devicons" -- File icons
     use "nvim-telescope/telescope.nvim"
-    use "nvim-telescope/telescope-file-browser.nvim"
+    use "nvim-tree/nvim-tree.lua"
     use "windwp/nvim-autopairs"
     use "windwp/nvim-ts-autotag"
     use "norcalli/nvim-colorizer.lua"
