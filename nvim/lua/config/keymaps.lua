@@ -3,8 +3,8 @@
 -- Add any additional keymaps here
 
 -- Avoiding repeating movements key presses
-local discipline = require("heaven.disciplines")
-discipline.cowboy()
+-- local discipline = require("heaven.disciplines")
+-- discipline.cowboy()
 
 local keymap = vim.keymap
 
@@ -64,6 +64,10 @@ keymap.set("n", "<leader>fh", ":Telescope help_tags<cr>")
 keymap.set("n", "<leader>fc", ":Telescope colorscheme<cr>")
 keymap.set("n", "<leader>fm", ":Telescope harpoon marks<cr>")
 keymap.set("n", "<leader>fy", ":Telescope neoclip a extra=star,plus,unnamed<cr>")
+
+-- Switch buffer
+keymap.set("n", "<Tab>", ":tabnext<CR>")
+keymap.set("n", "<S-Tab>", ":tabprevious<CR>")
 
 -- latex math
 keymap.set("n", "<leader>p", function()

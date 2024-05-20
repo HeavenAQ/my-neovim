@@ -67,6 +67,7 @@ return {
           { name = "path" },
         }),
         formatting = {
+          expandable_indicator = true,
           fields = { "kind", "abbr", "menu" },
           format = lspkind.cmp_format({
             maxwidth = 50,
@@ -75,21 +76,6 @@ return {
               return vim_item
             end,
           }),
-        },
-      })
-
-      -- Example LSP setup (pyright)
-      local nvim_lsp = require("lspconfig")
-      nvim_lsp.pyright.setup({
-        on_attach = function(client, bufnr)
-          local opts = { noremap = true, silent = true }
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<Cmd>lua vim.lsp.buf.hover()<CR>", opts)
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-          vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-        end,
-        flags = {
-          debounce_text_changes = 150,
         },
       })
     end,
