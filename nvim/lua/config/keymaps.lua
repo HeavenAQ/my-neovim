@@ -58,7 +58,7 @@ keymap.set("n", "<S-w>", ":bprevious<CR>")
 
 -- Telescope
 keymap.set("n", "<leader>ff", ":Telescope find_files<cr>")
-keymap.set("n", "<leader>fg", ":Telescope live_grep<cr>")
+keymap.set("n", "<leader>fk", ":Telescope live_grep<cr>")
 keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
 keymap.set("n", "<leader>fh", ":Telescope help_tags<cr>")
 keymap.set("n", "<leader>fc", ":Telescope colorscheme<cr>")
@@ -79,7 +79,7 @@ end)
 local opts = { noremap = true, silent = true }
 keymap.set("n", "<C-j>", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 keymap.set("n", "<C-p>", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-keymap.set("n", "K", "<Cmd>Lspsaga hover_doc<CR>", opts)
+keymap.set("n", "<C-k>", "<Cmd>Lspsaga hover_doc<CR>", opts)
 keymap.set("n", ",d", "<Cmd>Lspsaga finder<CR>", opts)
 keymap.set("i", "<C-y>", "<Cmd>Lspsaga signature_help<CR>", opts)
 keymap.set("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", opts)
@@ -106,15 +106,3 @@ keymap.set("n", "<leader>cco", "<cmd>Lspsaga outgoing_calls<CR>")
 
 -- Float terminal
 keymap.set({ "n", "t" }, "<C-g>", "<cmd>Lspsaga term_toggle<CR>")
-
--- Quick Compilation
-vim.cmd([[
-  autocmd FileType python nmap <leader>e <cmd>! python3 % <cr>
-  autocmd FileType robot nmap <leader>g <cmd>! robotidy *robot <cr>
-  autocmd FileType * let b:coc_suggest_disable = 1
-  autocmd FileType c nmap <leader>w <cmd>! gcc %<cr>
-  autocmd FileType c nmap <leader>e <cmd>! ./a.out<cr>
-  autocmd FileType go nmap <leader>e <cmd>! go run .<cr>
-  autocmd FileType cpp nmap <leader>w <cmd>! g++ %<cr>
-  autocmd FileType cpp nmap <leader>e <cmd>! ./a.out<cr>
-]])

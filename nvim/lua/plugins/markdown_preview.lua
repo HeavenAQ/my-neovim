@@ -1,11 +1,11 @@
 return {
-  "0x00-ketsu/markdown-preview.nvim",
-  ft = { "md", "markdown", "mkd", "mkdn", "mdwn", "mdown", "mdtxt", "mdtext", "rmd", "wiki" },
-  config = function()
-    require("markdown-preview").setup({
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the setup section below
-    })
-  end,
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
 }

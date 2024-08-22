@@ -3,8 +3,6 @@ require("config.lazy")
 
 -- remove nvim-cmp background color
 vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "none" })
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#1c1c1c" })
 
 -- highlight words during visual mode
 vim.api.nvim_set_hl(0, "Visual", { bg = "#ffffff" })
@@ -23,7 +21,6 @@ vim.cmd([[
 
 -- remove background color for git signs and fold column
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "@variable.parameter", { fg = "#FFE073" })
 
 -- remove background color for inlay hints
@@ -31,3 +28,4 @@ vim.api.nvim_set_hl(0, "LspInlayHint", { bg = "none", fg = "#717161" })
 
 -- mark nvim diff fg red
 vim.api.nvim_set_hl(0, "DiffText", { fg = "#ff6660" })
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#717161" })

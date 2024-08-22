@@ -14,7 +14,7 @@ vim.opt.formatoptions:append({ "r" })
 
 -- Define a custom sign with a right arrow
 vim.cmd([[
-  sign define currentline text=󰆧 texthl=Keyword
+  sign define currentline text= texthl=Keyword
 ]])
 
 -- Config tabwidth when editing js related files
