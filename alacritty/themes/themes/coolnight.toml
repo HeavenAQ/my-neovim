@@ -1,9 +1,9 @@
-# By Josean Martinez
 # Inspired by aura.toml
+# By Josean Martinez
 
 # Default colors
 [colors.primary]
-background = '#000000'
+background = '#0B100B'
 foreground = '#CBE0F0'
 
 # Colors the cursor will use if `custom_cursor_colors` is true

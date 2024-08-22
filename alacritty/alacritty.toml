@@ -6,7 +6,13 @@ decorations = "buttonless"
 opacity = 0.8
 
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-italic = { family = "JetBrainsMono Nerd Font", style = "Bold Italic" }
-size = 12
+normal = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
+bold = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
+bold_italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
+italic = { family = "FantasqueSansM Nerd Font", style = "Bold Italic" }
+size = 14.5
 offset = { x = 0, y = 4 }
+
+[shell]
+program = "/bin/zsh"
+args = ["-l", "-c", "tmux"]
