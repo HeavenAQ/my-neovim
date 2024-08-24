@@ -2,6 +2,10 @@ return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
     filesystem = {
+
+      follow_current_file = {
+        enabled = true,
+      }, -- Focus on the current file in Neo-tree
       filtered_items = {
         visible = true,
         show_hidden_count = true,

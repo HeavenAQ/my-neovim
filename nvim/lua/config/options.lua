@@ -37,7 +37,7 @@ vim.opt.shiftwidth = 4
 
 -- use 2 for tab width when editing js, ts, jsx, tsx, astro files
 vim.cmd(
-  [[autocmd FileType javascript,typescript,typescriptreact,javascriptreact,astro setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+  [[autocmd FileType javascript,typescript,typescriptreact,javascriptreact,astro,lua setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
 )
 
 -- remove listchars

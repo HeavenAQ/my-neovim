@@ -34,8 +34,8 @@ keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 keymap.set("n", "te", ":tabedit<CR>")
 
 -- Split window
-keymap.set("n", "ss", ":split<Return><C-w>w")
-keymap.set("n", "sv", ":vsplit<Return><C-w>w")
+keymap.set("n", "ss", ":split<Return>")
+keymap.set("n", "sv", ":vsplit<Return>")
 
 -- Move around window
 keymap.set("n", "<Space>", "<C-w>w")

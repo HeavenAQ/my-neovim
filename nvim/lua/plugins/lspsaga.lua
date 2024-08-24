@@ -14,10 +14,6 @@ return {
           -- border type can be single, double, rounded, solid, shadow.
           border = "rounded",
         },
-        diagnostic = {
-          virtual_text = false,
-          on_insert = false,
-        },
         lightbulb = {
           enable = false,
           enable_in_insert = false,
