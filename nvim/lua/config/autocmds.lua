@@ -71,7 +71,7 @@ vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
 vim.api.nvim_set_hl(0, "Comment", { fg = "#717161", italic = true })
 vim.cmd([[
         au BufNewFile,BufRead *.s,*.S set filetype=arm " arm = armv6/7
-    ]])
+]])
 
 -- remove background color for git signs and fold column
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })

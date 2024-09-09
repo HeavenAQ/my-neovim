@@ -74,6 +74,7 @@ return {
             "--header-insertion=iwyu",
             "--completion-style=detailed",
             "--function-arg-placeholders",
+            "--enable-config",
           },
           init_options = {
             usePlaceholders = true,
