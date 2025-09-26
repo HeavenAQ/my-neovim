@@ -1,5 +1,6 @@
 return {
   "nvim-lualine/lualine.nvim",
+  enabled = vim.g.neovim_mode ~= "skitty",
   config = function()
     local lualine_colors = {
       dark = "#2E3440",
@@ -50,6 +51,23 @@ return {
           "lazygit",
           "neo-tree",
         },
+        theme = {
+          normal = {
+            c = { bg = "NONE" }, -- This makes the background of empty space transparent
+          },
+          insert = {
+            c = { bg = "NONE" }, -- Insert mode empty space is also transparent
+          },
+          visual = {
+            c = { bg = "NONE" },
+          },
+          replace = {
+            c = { bg = "NONE" },
+          },
+          command = {
+            c = { bg = "NONE" },
+          },
+        },
       },
       sections = {
         lualine_a = {},
@@ -58,7 +76,7 @@ return {
         lualine_x = {
           {
             "diff",
-            color = { bg = lualine_colors.dark },
+            color = { bg = lualine_colors.none },
             padding = 1,
           },
           {
@@ -76,7 +94,7 @@ return {
             diagnostics_color = {
               hint = {
                 fg = lualine_colors.frostturquoise,
-                bg = lualine_colors.greydark,
+                bg = lualine_colors.none,
               },
             },
             update_in_insert = true,
@@ -91,7 +109,7 @@ return {
             diagnostics_color = {
               hint = {
                 fg = lualine_colors.frostblue,
-                bg = lualine_colors.greydark,
+                bg = lualine_colors.none,
               },
             },
             update_in_insert = true,
@@ -106,7 +124,7 @@ return {
             diagnostics_color = {
               warn = {
                 fg = lualine_colors.yellow,
-                bg = lualine_colors.greydark,
+                bg = lualine_colors.none,
               },
             },
             update_in_insert = true,
@@ -121,7 +139,7 @@ return {
             diagnostics_color = {
               error = {
                 fg = lualine_colors.red,
-                bg = lualine_colors.greydark,
+                bg = lualine_colors.none,
               },
             },
             update_in_insert = true,
@@ -131,6 +149,17 @@ return {
           },
         },
         lualine_z = {
+          {
+            function()
+              if vim.fn.wordcount().visual_words == 1 then
+                return tostring(vim.fn.wordcount().visual_words) .. " word"
+              elseif not (vim.fn.wordcount().visual_words == nil) then
+                return tostring(vim.fn.wordcount().visual_words) .. " words"
+              else
+                return tostring(vim.fn.wordcount().words) .. " words"
+              end
+            end,
+          },
           {
             modified,
             padding = 1,

@@ -50,18 +50,18 @@ local function update_line_indicator()
 end
 
 -- Setup an autocmd to update the line indicator on cursor movements
-vim.api.nvim_create_autocmd(
-  { "CursorMoved", "CursorMovedI", "InsertLeave" },
-  { pattern = "*", callback = update_line_indicator }
-)
+if vim.g.neovim_mode ~= "skitty" then
+  vim.api.nvim_create_autocmd(
+    { "CursorMoved", "CursorMovedI", "InsertLeave" },
+    { pattern = "*", callback = update_line_indicator }
+  )
+end
 
 -- remove nvim-cmp background color
 vim.api.nvim_set_hl(0, "CmpNormal", { bg = "none" })
 
 -- highlight words during visual mode
 vim.api.nvim_set_hl(0, "Visual", { bg = "#ffffff" })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1c1c1c" })
-vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#1c1c4a" })
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#717161" })
 
 -- disable winbar color

@@ -29,7 +29,8 @@ vim.opt.splitright = true -- Put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.cursorline = true
 vim.opt.cursorcolumn = true
-vim.opt.mouse = ""
+vim.g.vimtex_view_method = "skim"
+
 -- set tab width
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4

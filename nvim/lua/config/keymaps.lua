@@ -3,8 +3,8 @@
 -- Add any additional keymaps here
 
 -- Avoiding repeating movements key presses
--- local discipline = require("heaven.disciplines")
--- discipline.cowboy()
+local discipline = require("heaven.disciplines")
+discipline.cowboy()
 
 local keymap = vim.keymap
 
@@ -38,7 +38,6 @@ keymap.set("n", "ss", ":split<Return>")
 keymap.set("n", "sv", ":vsplit<Return>")
 
 -- Move around window
-keymap.set("n", "<Space>", "<C-w>w")
 keymap.set("", "sh", "<C-w>h")
 keymap.set("", "sk", "<C-w>k")
 keymap.set("", "sj", "<C-w>j")
@@ -55,15 +54,6 @@ keymap.set("n", "\\", ":Neotree toggle<CR>")
 keymap.set("n", "<leader><leader>", ":noh<CR>", { silent = true })
 keymap.set("n", "<S-e>", ":bnext<CR>")
 keymap.set("n", "<S-w>", ":bprevious<CR>")
-
--- Telescope
-keymap.set("n", "<leader>ff", ":Telescope find_files<cr>")
-keymap.set("n", "<leader>fk", ":Telescope live_grep<cr>")
-keymap.set("n", "<leader>fb", ":Telescope buffers<cr>")
-keymap.set("n", "<leader>fh", ":Telescope help_tags<cr>")
-keymap.set("n", "<leader>fc", ":Telescope colorscheme<cr>")
-keymap.set("n", "<leader>fm", ":Telescope harpoon marks<cr>")
-keymap.set("n", "<leader>fy", ":Telescope neoclip a extra=star,plus,unnamed<cr>")
 
 -- Switch buffer
 keymap.set("n", "<Tab>", ":tabnext<CR>")
@@ -97,12 +87,20 @@ keymap.set({ "n", "t" }, "<C-g>", "<cmd>Lspsaga term_toggle<CR>")
 -- lsp
 keymap.set("n", "<leader>z", ":LspRestart<CR>", { silent = true })
 
--- go err check -> insert if err != nil { return err }
-keymap.set("n", "<leader>l", "oif err != nil {\nreturn err \n}", { silent = true })
-
 -- Call hierarchy
 keymap.set("n", "<leader>cci", "<cmd>Lspsaga incoming_calls<CR>")
 keymap.set("n", "<leader>cco", "<cmd>Lspsaga outgoing_calls<CR>")
 
 -- Float terminal
 keymap.set({ "n", "t" }, "<C-g>", "<cmd>Lspsaga term_toggle<CR>")
+
+-- Latex
+vim.keymap.set("n", "<leader>a", function()
+  local lines = {
+    "$$\\begin{align*}",
+    "",
+    "\\end{align*}$$",
+  }
+  vim.api.nvim_put(lines, "l", true, true)
+  vim.cmd("normal! kA")
+end, { noremap = true, silent = true })

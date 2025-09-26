@@ -2,6 +2,7 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
+      "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -10,26 +11,37 @@ return {
       "L3MON4D3/LuaSnip",
       "onsails/lspkind-nvim",
     },
+    opts = function(_, opts)
+      table.insert(opts.sources, { name = "emoji" })
+    end,
     config = function()
       local cmp = require("cmp")
       local lspkind = require("lspkind")
-      local luasnip = require("luasnip")
 
+      -- Set up a custom highlight group for color items
       local function formatForTailwindCSS(entry, vim_item)
-        if vim_item.kind == "Color" and entry.completion_item.documentation then
-          local _, _, r, g, b = string.find(entry.completion_item.documentation, "^rgb%((%d+), (%d+), (%d+)")
-          if r then
-            local color = string.format("%02x", r) .. string.format("%02x", g) .. string.format("%02x", b)
-            local group = "Tw_" .. color
-            if vim.fn.hlID(group) < 1 then
-              vim.api.nvim_set_hl(0, group, { fg = "#" .. color })
-            end
-            vim_item.kind = "●"
-            vim_item.kind_hl_group = group
+        if vim_item.kind == "Color" and type(entry.completion_item.documentation) == "string" then
+          -- Match a valid hex color code (e.g., #RRGGBB)
+          local color = entry.completion_item.documentation:match("#%x%x%x%x%x%x")
+          if not color then
+            print("No valid color found in documentation")
             return vim_item
           end
+
+          local group = "Tw_" .. color:gsub("#", "")
+
+          if vim.fn.hlID(group) < 1 then
+            -- Dynamically create a highlight group with the parsed color
+            vim.api.nvim_set_hl(0, group, { fg = color })
+          end
+
+          vim_item.kind = "●"
+          vim_item.kind_hl_group = group -- Use the dynamic highlight group
+          return vim_item
         end
-        vim_item.kind = lspkind.symbolic(vim_item.kind) and lspkind.symbolic(vim_item.kind) or vim_item.kind
+
+        -- Fallback formatting
+        vim_item.kind = lspkind.symbolic(vim_item.kind) or vim_item.kind
         return vim_item
       end
 
@@ -51,24 +63,6 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
           ["<CR>"] = cmp.mapping.confirm({
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,

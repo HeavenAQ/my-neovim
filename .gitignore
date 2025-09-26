@@ -1,0 +1,86 @@
+# ==================================================
+# Alacritty
+# ==================================================
+alacritty/.cache/
+
+# ==================================================
+# Tmux
+# ==================================================
+tmux/resurrect/
+tmux/continuum/
+.tmux.conf.bak
+
+# ==================================================
+# Shells
+# ==================================================
+zsh/.zcompdump*
+zsh/.zsh_history
+zsh/.zsh_sessions
+bash/.bash_history
+bash/.bash_sessions
+fish/fish_history
+
+# ==================================================
+# Starship
+# ==================================================
+starship/cache/
+
+# ==================================================
+# General App Caches
+# ==================================================
+*/cache/
+*/Cache/
+*/logs/
+
+# Node.js
+**/node_modules/
+**/.pnpm-store/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
+**/.venv/
+**/env/
+**/venv/
+
+# Rust
+**/target/
+**/.cargo/
+Cargo.lock
+
+# Go
+**/bin/
+**/pkg/
+**/*.test
+
+# Java
+**/*.class
+**/*.jar
+**/*.war
+**/*.ear
+**/hs_err_pid*
+
+# C / C++
+**/*.o
+**/*.out
+**/*.so
+**/*.a
+**/*.dSYM/
+
+# Misc Dev Tools
+**/dist/
+**/build/
+**/coverage/
+**/.idea/
+**/.vscode/
+
+raycast/extensions/*
+gcloud
+configstore/
+github-copilot/

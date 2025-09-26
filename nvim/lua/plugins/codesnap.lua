@@ -5,7 +5,7 @@ return {
     return {
       mac_window_bar = true,
       title = "CodeSnap.nvim",
-      code_font_family = "CaskaydiaCove Nerd Font",
+      code_font_family = "PlemolJP",
       watermark_font_family = "Pacifico",
       watermark = "HeavenChen.nvim",
       bg_padding = 0,
