@@ -101,7 +101,29 @@ return {
         },
       })
 
-      vim.cmd("colorscheme nordic")
+      local term = vim.env.TERM
+      if term == "xterm-kitty" then
+        vim.api.nvim_create_autocmd("ColorScheme", {
+          callback = function()
+            local set = vim.api.nvim_set_hl
+
+            set(0, "@comment", { fg = "#4C566A", italic = true })
+            set(0, "@keyword", { fg = "#5E81AC", bold = true })
+            set(0, "@keyword.repeat", { fg = "#5E81AC", bold = true }) -- while, for
+            set(0, "@keyword.conditional", { fg = "#5E81AC", bold = true }) -- if, else
+            set(0, "@keyword.return", { fg = "#5E81AC", bold = true }) -- return
+            set(0, "@function", { fg = "#5E81AC", bold = true })
+            set(0, "@boolean", { fg = "#f78c6c" })
+            set(0, "@number", { fg = "#f78c6c" })
+            set(0, "@type", { fg = "#4fa3b8" })
+            set(0, "@operator", { fg = "#5E81AC" })
+          end,
+        })
+        vim.cmd("colorscheme komau")
+      else
+        vim.cmd("colorscheme nordic")
+      end
+
       vim.api.nvim_set_hl(0, "@boolean", { fg = "#f78c6c" })
       vim.api.nvim_set_hl(0, "@number", { fg = "#f78c6c" })
       vim.api.nvim_set_hl(0, "@number.float", { fg = "#f78c6c" })
@@ -109,48 +131,52 @@ return {
       vim.api.nvim_set_hl(0, "CursorLine", { bg = "#404040" })
       vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#404040" })
       vim.api.nvim_set_hl(0, "Visual", { bg = "#404040" })
+      vim.api.nvim_set_hl(0, "Comment", { fg = "#818388" })
     end,
   },
-  -- Lazy
   {
-    "vague2k/vague.nvim",
+    "ntk148v/komau.vim",
     config = function()
-      -- NOTE: you do not need to call setup if you don't want to.
+      require("komau").setup({
+        style = "light",
+        transparent = true,
+        dim_inactive = true,
+      })
     end,
   },
   {
     "rmehri01/onenord.nvim",
-    config = function()
-      -- require("onenord").setup({
-      --   theme = nil, -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
-      --   borders = true, -- Split window borders
-      --   fade_nc = false, -- Fade non-current windows, making them more distinguishable
-      --   -- Style that is applied to various groups: see `highlight-args` for options
-      --   styles = {
-      --     comments = "italic",
-      --     strings = "NONE",
-      --     keywords = "NONE",
-      --     functions = "NONE",
-      --     variables = "NONE",
-      --     diagnostics = "underline",
-      --   },
-      --   disable = {
-      --     background = true, -- Disable setting the background color
-      --     float_background = true, -- Disable setting the background color for floating windows
-      --     cursorline = false, -- Disable the cursorline
-      --     eob_lines = true, -- Hide the end-of-buffer lines
-      --   },
-      --   -- Inverse highlight for different groups
-      --   inverse = {
-      --     match_paren = false,
-      --   },
-      --   custom_highlights = {
-      --     ["@keyword"] = { fg = "#f78c6c" },
-      --     -- a red color for the operator
-      --     ["@operator"] = { fg = "#f76c6c" },
-      --   }, -- Overwrite default highlight groups
-      --   custom_colors = {}, -- Overwrite default colors
-      -- })
-    end,
+    -- config = function()
+    --   require("onenord").setup({
+    --     theme = "light", -- "dark" or "light". Alternatively, remove the option and set vim.o.background instead
+    --     borders = true, -- Split window borders
+    --     fade_nc = false, -- Fade non-current windows, making them more distinguishable
+    --     -- Style that is applied to various groups: see `highlight-args` for options
+    --     styles = {
+    --       comments = "italic",
+    --       strings = "NONE",
+    --       keywords = "NONE",
+    --       functions = "NONE",
+    --       variables = "NONE",
+    --       diagnostics = "underline",
+    --     },
+    --     disable = {
+    --       background = true, -- Disable setting the background color
+    --       float_background = false, -- Disable setting the background color for floating windows
+    --       cursorline = false, -- Disable the cursorline
+    --       eob_lines = true, -- Hide the end-of-buffer lines
+    --     },
+    --     -- Inverse highlight for different groups
+    --     inverse = {
+    --       match_paren = true,
+    --     },
+    --     custom_highlights = {
+    --       ["@keyword"] = { fg = "#f78c6c" },
+    --       -- a red color for the operator
+    --       ["@operator"] = { fg = "#f76c6c" },
+    --     }, -- Overwrite default highlight groups
+    --     custom_colors = {}, -- Overwrite default colors
+    --   })
+    -- end,
   },
 }

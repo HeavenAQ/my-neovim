@@ -36,7 +36,7 @@ return {
         globalstatus = true,
         icons_enabled = true,
         component_separators = {},
-        section_separators = { left = "", right = "" },
+        section_separators = { left = ">", right = "<" },
         ignore_focus = {},
         always_divide_middle = true,
         refresh = {
@@ -52,21 +52,13 @@ return {
           "neo-tree",
         },
         theme = {
-          normal = {
-            c = { bg = "NONE" }, -- This makes the background of empty space transparent
-          },
-          insert = {
-            c = { bg = "NONE" }, -- Insert mode empty space is also transparent
-          },
-          visual = {
-            c = { bg = "NONE" },
-          },
-          replace = {
-            c = { bg = "NONE" },
-          },
-          command = {
-            c = { bg = "NONE" },
-          },
+          -- Make all sections transparent for every mode
+          normal = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
+          insert = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
+          visual = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
+          replace = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
+          command = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
+          inactive = { a = { bg = "NONE" }, b = { bg = "NONE" }, c = { bg = "NONE" } },
         },
       },
       sections = {
@@ -100,7 +92,7 @@ return {
             update_in_insert = true,
             symbols = { hint = " " },
             padding = 1,
-            separator = { left = "" },
+            separator = { left = "<" },
           },
           {
             "diagnostics",
@@ -115,7 +107,7 @@ return {
             update_in_insert = true,
             symbols = { hint = " " },
             padding = 1,
-            separator = { left = "" },
+            separator = { left = "<" },
           },
           {
             "diagnostics",
@@ -130,7 +122,7 @@ return {
             update_in_insert = true,
             symbols = { warn = " " },
             padding = 1,
-            separator = { left = "" },
+            separator = { left = "<" },
           },
           {
             "diagnostics",
@@ -145,7 +137,7 @@ return {
             update_in_insert = true,
             symbols = { error = "✚ " },
             padding = 1,
-            separator = { left = "" },
+            separator = { left = "<" },
           },
         },
         lualine_z = {
@@ -176,7 +168,7 @@ return {
           },
           {
             "mode",
-            separator = { left = "", right = "" },
+            separator = { left = "<", right = ">" },
           },
         },
       },

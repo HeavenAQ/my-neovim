@@ -1,19 +1,54 @@
 return {
   "mistricky/codesnap.nvim",
-  build = "make",
-  opts = function()
-    return {
-      mac_window_bar = true,
-      title = "CodeSnap.nvim",
-      code_font_family = "PlemolJP",
-      watermark_font_family = "Pacifico",
-      watermark = "HeavenChen.nvim",
-      bg_padding = 0,
-      breadcrumbs_separator = "/",
-      has_breadcrumbs = true,
-      has_line_number = false,
-      min_width = 0,
-      save_path = "~/Desktop/vimshot/",
-    }
-  end,
+  cmd = { "CodeSnap", "CodeSnapSave" },
+  config = function()
+    require("codesnap").setup({
+      show_line_number = true,
+      highlight_color = "#ffffff20",
+      show_workspace = true,
+      snapshot_config = {
+        theme = "candy",
+        window = {
+          mac_window_bar = true,
+          shadow = {
+            radius = 20,
+            color = "#00000040",
+          },
+          margin = {
+            x = 82,
+            y = 82,
+          },
+          border = {
+            width = 1,
+            color = "#ffffff30",
+          },
+          title_config = {
+            color = "#ffffff",
+            font_family = "Pacifico",
+          },
+        },
+        themes_folders = {},
+        fonts_folders = {},
+        line_number_color = "#495162",
+        command_output_config = {
+          prompt = "❯",
+          font_family = "CaskaydiaCove Nerd Font",
+          prompt_color = "#F78FB3",
+          command_color = "#98C379",
+          string_arg_color = "#ff0000",
+        },
+        code_config = {
+          font_family = "CaskaydiaCove Nerd Font",
+          breadcrumbs = {
+            enable = true,
+            separator = "/",
+            color = "#80848b",
+            font_family = "CaskaydiaCove Nerd Font",
+          },
+        },
+        watermark = { content = "", },
+        background = "#00000000",
+      },
+    })
+  end
 }

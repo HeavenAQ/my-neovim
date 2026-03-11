@@ -148,6 +148,14 @@
                         "is_pointing_device": true
                     },
                     "ignore": false
+                },
+                {
+                    "identifiers": {
+                        "device_address": "cd-98-52-01-5f-33",
+                        "is_keyboard": true,
+                        "is_pointing_device": true
+                    },
+                    "ignore": false
                 }
             ],
             "name": "Default profile",

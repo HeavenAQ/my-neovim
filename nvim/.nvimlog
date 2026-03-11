@@ -1,0 +1,7 @@
+WRN 2026-03-06T08:34:01.173 ?.68541    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/w8c73a/nvim.68541.0
+WRN 2026-03-06T08:34:04.160 ?.68546    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/CsFSM6/nvim.68546.0
+WRN 2026-03-06T08:34:18.346 ?.68601    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/EIsEHo/nvim.68601.0
+WRN 2026-03-06T08:34:18.570 ?.68601    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/EIsEHo/fzf-lua.1772753658.68601.1
+WRN 2026-03-06T08:34:51.597 ?.68705    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/m8LzYj/nvim.68705.0
+WRN 2026-03-06T08:36:12.492 ?.69226    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/G9sHyq/nvim.69226.0
+WRN 2026-03-06T08:36:12.544 ?.69230    server_start:199: Failed to start server: operation not permitted: /var/folders/cz/w2btrbys1jn708_pbfrms3j80000gn/T/nvim.heavenchen/TlFhh8/nvim.69230.0

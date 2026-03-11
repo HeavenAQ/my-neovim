@@ -3,43 +3,19 @@ vim.g.neovim_mode = vim.env.NEOVIM_MODE or "default"
 
 require("config.lazy")
 
--- remove nvim-cmp background color
-vim.api.nvim_set_hl(0, "FoldColumn", { bg = "none" })
-
--- disable winbar color
-vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
-
--- change comment colors
-vim.api.nvim_set_hl(0, "Comment", { fg = "#717161", italic = true })
-vim.cmd([[
-        au BufNewFile,BufRead *.s,*.S set filetype=arm " arm = armv6/7
-    ]])
-
--- remove background color for git signs and fold column
-vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "@variable.parameter", { fg = "#FFE073" })
-
--- remove background color for inlay hints
-vim.api.nvim_set_hl(0, "LspInlayHint", { bg = "none", fg = "#717161" })
-
--- mark nvim diff fg red
-vim.api.nvim_set_hl(0, "DiffText", { fg = "#ff6660" })
--- Set transparent background for the Pmenu (completion menu) and PmenuSel (selected item)
-vim.api.nvim_set_hl(0, "Pmenu", { bg = "none", fg = "#CBE0F0", blend = 0 })
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#275378", fg = "#FFFFFF", blend = 0 }) -- or set bg to "none" if you want it fully transparent
-
 vim.cmd([[
   let g:loaded_ruby_provider = 0
   let g:loaded_perl_provider = 0
-  let g:loaded_python3_provider = 0
   let g:loaded_node_provider = 0
 ]])
 
+
 if vim.g.neovide then
   vim.o.guifont = "PlemolJP:i:h14"
-  vim.g.neovide_transparency = 0.8
+  vim.g.neovide_opacity = 0.85
   vim.g.neovide_show_border = false
   vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_floating_corner_radius = 0.3
 end
 
 if vim.g.neovim_mode == "skitty" then
@@ -56,3 +32,38 @@ if vim.g.neovim_mode == "skitty" then
   -- Disable the command line
   vim.opt.cmdheight = 0
 end
+
+-- Force lualine to have no background regardless of theme/load order
+local function set_lualine_transparent()
+  local function set_bg_none(group)
+    pcall(vim.api.nvim_set_hl, 0, group, { bg = "NONE" })
+  end
+
+  -- Generic statusline groups
+  set_bg_none("StatusLine")
+  set_bg_none("StatusLineNC")
+
+  -- Lualine section groups across modes
+  local modes = { "normal", "insert", "visual", "replace", "command", "inactive" }
+  local sections = { "a", "b", "c", "x", "y", "z" }
+  for _, m in ipairs(modes) do
+    for _, s in ipairs(sections) do
+      set_bg_none(string.format("lualine_%s_%s", s, m))
+    end
+  end
+
+  -- Also clear any transitional highlight groups created by lualine
+  local ok, groups = pcall(vim.fn.getcompletion, "lualine", "highlight")
+  if ok then
+    for _, g in ipairs(groups) do
+      set_bg_none(g)
+    end
+  end
+end
+
+-- Apply on startup and whenever colorscheme changes (after lualine/themes load)
+vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
+  callback = function()
+    vim.schedule(set_lualine_transparent)
+  end,
+})

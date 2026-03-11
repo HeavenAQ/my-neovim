@@ -1,0 +1,3 @@
+[manager]
+editor = "nvim"
+open_dir_in_editor = true

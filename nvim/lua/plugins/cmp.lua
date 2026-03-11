@@ -1,6 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
+    enabled = false, -- use blink.cmp via LazyVim extra
     dependencies = {
       "hrsh7th/cmp-emoji",
       "hrsh7th/cmp-nvim-lsp",
@@ -54,9 +55,12 @@ return {
         window = {
           completion = cmp.config.window.bordered({
             border = "rounded",
-            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+            winhighlight = "Normal:CmpNormal,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None",
           }),
-          documentation = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered({
+            border = "rounded",
+            winhighlight = "Normal:CmpNormal,FloatBorder:CmpBorder,Search:None",
+          }),
         },
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),

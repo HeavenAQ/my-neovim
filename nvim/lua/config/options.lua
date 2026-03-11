@@ -2,6 +2,7 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 vim.g.mapleader = ","
+vim.g.maplocalleader = ";"
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 vim.opt.title = true
@@ -10,7 +11,7 @@ vim.opt.smartindent = true
 vim.opt.hlsearch = true
 vim.opt.backup = false
 vim.opt.showcmd = true
-vim.opt.cmdheight = 1
+-- let LazyVim handle minimal cmdline; avoid flicker
 vim.opt.laststatus = 2
 vim.opt.expandtab = true
 vim.opt.scrolloff = 10
@@ -20,15 +21,16 @@ vim.opt.inccommand = "split"
 vim.opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
 vim.opt.smarttab = true
 vim.opt.breakindent = true
-vim.opt.wrap = false -- No Wrap lines
+vim.opt.wrap = true           -- No Wrap lines
 vim.opt.backspace = { "start", "eol", "indent" }
 vim.opt.path:append({ "**" }) -- Finding files - Search down into subfolders
 vim.opt.wildignore:append({ "*/node_modules/*" })
-vim.opt.splitbelow = true -- Put new windows below current
-vim.opt.splitright = true -- Put new windows right of current
+vim.opt.splitbelow = true     -- Put new windows below current
+vim.opt.splitright = true     -- Put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.cursorline = true
-vim.opt.cursorcolumn = true
+vim.opt.cursorcolumn = false
+-- enable spell only for text-like filetypes via autocmds
 vim.g.vimtex_view_method = "skim"
 
 -- set tab width
@@ -45,8 +47,7 @@ vim.cmd(
 vim.opt.list = false
 
 -- Undercurl
-vim.cmd([[let &t_Cs = "\e[4:3m"]])
-vim.cmd([[let &t_Ce = "\e[4:0m"]])
+-- moved to autocmds to avoid duplication
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append({ "r" })

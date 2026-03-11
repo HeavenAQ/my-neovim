@@ -120,7 +120,7 @@ font-family = "PlemolJP"
 font-size = 14
 
 # Style names as advertised by the font
-font-style = "SemiBold Italic"
+font-style = "Medium Italic"
 font-style-bold = "Bold Italic"
 font-style-italic = "SemiBold Italic"
 font-style-bold-italic = "Bold Italic"
