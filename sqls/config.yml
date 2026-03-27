@@ -1,0 +1,5 @@
+# Set to true to use lowercase keywords instead of uppercase.
+lowercaseKeywords: false
+connections:
+  - driver: postgresql
+    dataSourceName: "host=127.0.0.1 port=5432 user=myuser password=mypassword dbname=mydatabase sslmode=disable"
