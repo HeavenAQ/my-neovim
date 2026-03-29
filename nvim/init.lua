@@ -8,7 +8,7 @@ vim.cmd([[
   let g:loaded_perl_provider = 0
   let g:loaded_node_provider = 0
 ]])
-
+vim.g.python3_host_prog = vim.fn.expand("~/.config/nvim/venv/bin/python")
 
 if vim.g.neovide then
   vim.o.guifont = "PlemolJP:i:h14"

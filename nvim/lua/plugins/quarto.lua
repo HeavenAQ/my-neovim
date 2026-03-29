@@ -9,7 +9,14 @@ return {
         config = {
           repl_definition = {
             python = {
-              command = { "ipython", "--no-autoindent" },
+              command = function()
+                local cwd = vim.fn.expand("%:p:h")
+                return {
+                  "ipython",
+                  "--no-autoindent",
+                  "--InteractiveShellApp.exec_lines=import os,sys; os.chdir('" .. cwd .. "'); sys.path.insert(0, '" .. cwd .. "')",
+                }
+              end,
             },
             r = {
               command = { "R" },

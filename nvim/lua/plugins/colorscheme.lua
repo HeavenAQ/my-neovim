@@ -121,7 +121,7 @@ return {
         })
         vim.cmd("colorscheme komau")
       else
-        vim.cmd("colorscheme nordic")
+        vim.cmd("colorscheme monet")
       end
 
       vim.api.nvim_set_hl(0, "@boolean", { fg = "#f78c6c" })
@@ -141,6 +141,21 @@ return {
         style = "light",
         transparent = true,
         dim_inactive = true,
+      })
+    end,
+  },
+
+  {
+    "fynnfluegge/monet.nvim",
+    name = "monet",
+    config = function()
+      require("monet").setup({
+        transparent_background = true,
+        semantic_tokens = true,
+        dark_mode = true,
+        highlight_overrides = {},
+        color_overrides = {},
+        styles = {},
       })
     end,
   },

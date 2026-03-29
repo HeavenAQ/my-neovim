@@ -2,6 +2,7 @@
     "profiles": [
         {
             "complex_modifications": {
+                "parameters": { "basic.to_delayed_action_delay_milliseconds": 300 },
                 "rules": [
                     {
                         "description": "CAPS › ESC, CAPS+H/J/K/L › ←↓↑→, CAPS+D/U › PG↓↑",

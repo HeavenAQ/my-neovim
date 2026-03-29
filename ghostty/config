@@ -116,14 +116,14 @@ window-padding-y = 6,0
 # font-size = 16
 #
 # Base family and size
-font-family = "PlemolJP"
+
 font-size = 14
 
 # Style names as advertised by the font
-font-style = "Medium Italic"
-font-style-bold = "Bold Italic"
-font-style-italic = "SemiBold Italic"
-font-style-bold-italic = "Bold Italic"
+# font-style = "Medium Italic"
+# font-style-bold = "Bold Italic"
+# font-style-italic = "SemiBold Italic"
+# font-style-bold-italic = "Bold Italic"
 # Valid values:
 # 
 #   * `true`
