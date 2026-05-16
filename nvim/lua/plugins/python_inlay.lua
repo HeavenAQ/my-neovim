@@ -28,6 +28,18 @@ return {
             },
           },
         },
+        settings = {
+          python = {
+            analysis = {
+              inlayHints = inlay_hints,
+            },
+          },
+          pyrefly = {
+            analysis = {
+              inlayHints = inlay_hints,
+            },
+          },
+        },
       })
 
       return opts
