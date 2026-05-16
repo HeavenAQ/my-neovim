@@ -103,6 +103,18 @@ local function fzf(cmd)
   return false
 end
 
+local function lsp_supports_method(method, bufnr)
+  bufnr = bufnr or vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients and vim.lsp.get_clients({ bufnr = bufnr })
+    or vim.lsp.get_active_clients({ bufnr = bufnr })
+  for _, client in ipairs(clients or {}) do
+    if client.supports_method and client:supports_method(method, bufnr) then
+      return true
+    end
+  end
+  return false
+end
+
 -- Helpers to filter external library paths
 local function is_excluded_path(fname)
   local patterns = {
@@ -126,19 +138,46 @@ local function is_excluded_path(fname)
   return false
 end
 
-local function to_items(result)
+-- LSP offset encoding helpers to avoid warnings with mixed clients
+local function get_offset_encoding(bufnr)
+  local clients = {}
+  if vim.lsp.get_clients then
+    clients = vim.lsp.get_clients({ bufnr = bufnr })
+  else
+    clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  end
+  for _, c in ipairs(clients or {}) do
+    if c and c.offset_encoding then
+      return c.offset_encoding
+    end
+  end
+  return "utf-16"
+end
+
+local function normalize_locations(result)
   if not result or vim.tbl_isempty(result) then
     return {}
   end
-  local locations = {}
-  if result[1] and result[1].targetUri then
-    for _, loc in ipairs(result) do
-      table.insert(locations, { uri = loc.targetUri, range = loc.targetRange })
-    end
-  else
-    locations = result
+  if result.uri or result.targetUri then
+    return { result }
   end
-  return vim.lsp.util.locations_to_items(locations, 0) or {}
+  return result
+end
+
+local function to_items(result)
+  local result_locations = normalize_locations(result)
+  if vim.tbl_isempty(result_locations) then
+    return {}
+  end
+  local locations = {}
+  for _, loc in ipairs(result_locations) do
+    local uri = loc.targetUri or loc.uri
+    local range = loc.targetRange or loc.range
+    if uri and range then
+      table.insert(locations, { uri = uri, range = range })
+    end
+  end
+  return vim.lsp.util.locations_to_items(locations, get_offset_encoding()) or {}
 end
 
 -- Project root + path helpers
@@ -168,22 +207,6 @@ local function relpath(root, path)
   return (path:gsub("^" .. esc .. "/?", ""))
 end
 
--- LSP offset encoding helpers to avoid warnings with mixed clients
-local function get_offset_encoding(bufnr)
-  local clients = {}
-  if vim.lsp.get_clients then
-    clients = vim.lsp.get_clients({ bufnr = bufnr })
-  else
-    clients = vim.lsp.get_active_clients({ bufnr = bufnr })
-  end
-  for _, c in ipairs(clients or {}) do
-    if c and c.offset_encoding then
-      return c.offset_encoding
-    end
-  end
-  return "utf-16"
-end
-
 local function make_pos_params(bufnr)
   local enc = get_offset_encoding(bufnr)
   local ok, params = pcall(vim.lsp.util.make_position_params, 0, enc)
@@ -195,7 +218,25 @@ local function make_pos_params(bufnr)
     params.position_encoding = enc
     return params
   end
-  return { textDocument = vim.lsp.util.make_text_document_params(bufnr), position_encoding = enc }
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  return {
+    textDocument = vim.lsp.util.make_text_document_params(bufnr),
+    position = {
+      line = cursor[1] - 1,
+      character = cursor[2],
+    },
+    position_encoding = enc,
+  }
+end
+
+local function first_location(result)
+  for _, loc in ipairs(normalize_locations(result)) do
+    local uri = loc.targetUri or loc.uri
+    local range = loc.targetSelectionRange or loc.targetRange or loc.range
+    if uri and range then
+      return { uri = uri, range = range }
+    end
+  end
 end
 
 local function show_defs_and_project_refs()
@@ -424,15 +465,13 @@ do
         return
       end
 
-      local def = result[1]
-      local uri = def.uri or def.targetUri
-      local range = def.range or def.targetRange
-      if not uri or not range then
+      local def = first_location(result)
+      if not def then
         vim.notify("Invalid definition response", vim.log.levels.WARN)
         return
       end
 
-      local fname = vim.uri_to_fname(uri)
+      local fname = vim.uri_to_fname(def.uri)
       local target_buf = vim.fn.bufadd(fname)
       vim.fn.bufload(target_buf)
 
@@ -462,8 +501,8 @@ do
       pcall(vim.api.nvim_set_option_value, "wrap", false, { win = win })
 
       -- Jump to target range
-      local start_line = (range.start and range.start.line or 0) + 1
-      local start_col = (range.start and range.start.character or 0)
+      local start_line = (def.range.start and def.range.start.line or 0) + 1
+      local start_col = def.range.start and def.range.start.character or 0
       pcall(vim.api.nvim_win_set_cursor, win, { start_line, start_col })
       -- Try to center the view
       pcall(vim.api.nvim_win_call, win, function()
@@ -492,23 +531,41 @@ keymap.set({ "n", "v" }, "<leader>k", function()
   vim.lsp.buf.code_action()
 end, opts)
 
+keymap.set("n", "<leader>cF", function()
+  vim.lsp.buf.code_action({
+    context = {
+      only = { "source.fixAll.pyrefly" },
+      diagnostics = vim.diagnostic.get(0),
+    },
+    apply = true,
+  })
+end, vim.tbl_extend("force", opts, { desc = "Pyrefly Fix All" }))
+
 -- Outline: prefer Trouble symbols or fzf-lua document symbols; fallback to LSP
-keymap.set("n", "<leader>o", function()
+keymap.set("n", "<leader>lo", function()
   if not open_trouble("symbols") then
     if not fzf("lsp_document_symbols") then
       vim.lsp.buf.document_symbol()
     end
   end
-end, opts)
+end, vim.tbl_extend("force", opts, { desc = "LSP Outline" }))
 
 -- Call hierarchy
 keymap.set("n", "<leader>cci", function()
+  if not lsp_supports_method("textDocument/prepareCallHierarchy") then
+    vim.notify("Call hierarchy is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
   if not fzf("lsp_incoming_calls") then
     -- built-in fallback
     vim.lsp.buf.incoming_calls()
   end
 end, opts)
 keymap.set("n", "<leader>cco", function()
+  if not lsp_supports_method("textDocument/prepareCallHierarchy") then
+    vim.notify("Call hierarchy is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
   if not fzf("lsp_outgoing_calls") then
     -- built-in fallback
     vim.lsp.buf.outgoing_calls()
