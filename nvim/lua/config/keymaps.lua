@@ -578,6 +578,38 @@ keymap.set("n", "<leader>cco", function()
   end
 end, opts)
 
+keymap.set("n", "<leader>lts", function()
+  if not lsp_supports_method("textDocument/prepareTypeHierarchy") then
+    vim.notify("Type hierarchy is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
+  vim.lsp.buf.typehierarchy("supertypes")
+end, vim.tbl_extend("force", opts, { desc = "Type Hierarchy Supertypes" }))
+
+keymap.set("n", "<leader>ltt", function()
+  if not lsp_supports_method("textDocument/prepareTypeHierarchy") then
+    vim.notify("Type hierarchy is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
+  vim.lsp.buf.typehierarchy("subtypes")
+end, vim.tbl_extend("force", opts, { desc = "Type Hierarchy Subtypes" }))
+
+keymap.set({ "n", "x" }, "<leader>lc", function()
+  if not lsp_supports_method("textDocument/codeLens") then
+    vim.notify("CodeLens is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
+  vim.lsp.codelens.run()
+end, vim.tbl_extend("force", opts, { desc = "Run CodeLens" }))
+
+keymap.set("n", "<leader>lC", function()
+  if not lsp_supports_method("textDocument/codeLens") then
+    vim.notify("CodeLens is not supported by the attached LSP", vim.log.levels.INFO)
+    return
+  end
+  vim.lsp.codelens.refresh()
+end, vim.tbl_extend("force", opts, { desc = "Refresh CodeLens" }))
+
 -- LSP management
 keymap.set("n", "<leader>z", ":LspRestart<CR>", { silent = true })
 
