@@ -21,7 +21,7 @@ return {
             },
           },
           pyrefly = {
-            typeCheckingMode = "auto",
+            typeCheckingMode = "default",
             analysis = {
               diagnosticMode = "openFilesOnly",
               inlayHints = inlay_hints,
