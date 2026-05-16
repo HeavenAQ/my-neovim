@@ -66,6 +66,20 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 _set_float_transparent()
 
+local function _set_reference_highlights()
+  local reference_bg = "#203246"
+  local reference_write_bg = "#2a3f56"
+  pcall(vim.api.nvim_set_hl, 0, "LspReferenceText", { bg = reference_bg })
+  pcall(vim.api.nvim_set_hl, 0, "LspReferenceRead", { bg = reference_bg })
+  pcall(vim.api.nvim_set_hl, 0, "LspReferenceWrite", { bg = reference_write_bg })
+end
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = _set_reference_highlights,
+})
+
+_set_reference_highlights()
+
 -- highlight words during visual mode
 vim.api.nvim_set_hl(0, "Visual", { bg = "#ffffff" })
 vim.api.nvim_set_hl(0, "LineNr", { fg = "#717161" })

@@ -369,6 +369,30 @@ keymap.set(
   vim.tbl_extend("force", opts, { desc = "Defs + Refs (project)" })
 )
 
+local function jump_reference(count, cycle)
+  if has("snacks") and Snacks.words and Snacks.words.is_enabled() then
+    Snacks.words.jump(count, cycle)
+  else
+    vim.notify("Reference highlighting is not available for this buffer", vim.log.levels.INFO)
+  end
+end
+
+keymap.set("n", "]r", function()
+  jump_reference(vim.v.count1, false)
+end, vim.tbl_extend("force", opts, { desc = "Next Reference" }))
+
+keymap.set("n", "[r", function()
+  jump_reference(-vim.v.count1, false)
+end, vim.tbl_extend("force", opts, { desc = "Previous Reference" }))
+
+keymap.set("n", "]R", function()
+  jump_reference(vim.v.count1, true)
+end, vim.tbl_extend("force", opts, { desc = "Next Reference (cycle)" }))
+
+keymap.set("n", "[R", function()
+  jump_reference(-vim.v.count1, true)
+end, vim.tbl_extend("force", opts, { desc = "Previous Reference (cycle)" }))
+
 -- Workspace diagnostics picker (fzf with side-by-side preview)
 local function show_workspace_diagnostics()
   local bufnr = vim.api.nvim_get_current_buf()
