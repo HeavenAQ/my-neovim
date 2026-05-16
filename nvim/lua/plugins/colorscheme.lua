@@ -121,7 +121,7 @@ return {
         })
         vim.cmd("colorscheme komau")
       else
-        vim.cmd("colorscheme monet")
+        vim.cmd("colorscheme nordic")
       end
 
       vim.api.nvim_set_hl(0, "@boolean", { fg = "#f78c6c" })
