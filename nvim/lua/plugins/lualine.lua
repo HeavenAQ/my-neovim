@@ -31,6 +31,22 @@ return {
       return ""
     end
 
+    local function lsp_clients()
+      local bufnr = vim.api.nvim_get_current_buf()
+      local clients = vim.lsp.get_clients and vim.lsp.get_clients({ bufnr = bufnr })
+        or vim.lsp.get_active_clients({ bufnr = bufnr })
+      if not clients or vim.tbl_isempty(clients) then
+        return "none"
+      end
+
+      local names = {}
+      for _, client in ipairs(clients) do
+        table.insert(names, client.name)
+      end
+      table.sort(names)
+      return table.concat(names, ",")
+    end
+
     require("lualine").setup({
       options = {
         globalstatus = true,
@@ -66,6 +82,12 @@ return {
         lualine_b = {},
         lualine_c = {},
         lualine_x = {
+          {
+            lsp_clients,
+            icon = { " ", color = { fg = lualine_colors.frostturquoise, bg = lualine_colors.none }, align = "left" },
+            color = { fg = lualine_colors.snowdark, bg = lualine_colors.none },
+            padding = 1,
+          },
           {
             "diff",
             color = { bg = lualine_colors.none },
