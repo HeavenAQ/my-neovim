@@ -6,7 +6,6 @@ return {
       opts.ensure_installed = opts.ensure_installed or {}
       local ensure = {
         "pyrefly",
-        "ruff", -- ruff LSP (renamed from ruff_lsp)
       }
       for _, s in ipairs(ensure) do
         if not vim.tbl_contains(opts.ensure_installed, s) then

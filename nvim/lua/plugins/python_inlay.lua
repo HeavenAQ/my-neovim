@@ -6,6 +6,9 @@ return {
       opts = opts or {}
       opts.servers = opts.servers or {}
 
+      opts.servers.ruff = vim.tbl_deep_extend("force", opts.servers.ruff or {}, { enabled = false })
+      opts.servers.ruff_lsp = vim.tbl_deep_extend("force", opts.servers.ruff_lsp or {}, { enabled = false })
+
       local inlay_hints = {
         callArgumentNames = "all",
         functionReturnTypes = true,
