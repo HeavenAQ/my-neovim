@@ -1,5 +1,6 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 vim.g.neovim_mode = vim.env.NEOVIM_MODE or "default"
+vim.g.lazyvim_python_lsp = "pyrefly"
 
 require("config.lazy")
 
