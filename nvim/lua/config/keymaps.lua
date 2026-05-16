@@ -451,23 +451,23 @@ keymap.set("i", "<C-y>", function()
 end, opts)
 
 do
-  -- Peek definition in a floating window and close with `q`
-  local function peek_definition()
+  -- Peek LSP locations in a floating window and close with `q`
+  local function peek_location(method, label)
     local curbuf = vim.api.nvim_get_current_buf()
     local params = make_pos_params(curbuf)
-    vim.lsp.buf_request(curbuf, "textDocument/definition", params, function(err, result)
+    vim.lsp.buf_request(curbuf, method, params, function(err, result)
       if err then
         vim.notify("LSP error: " .. (err.message or tostring(err)), vim.log.levels.ERROR)
         return
       end
       if not result or vim.tbl_isempty(result) then
-        vim.notify("No definition found", vim.log.levels.INFO)
+        vim.notify("No " .. label:lower() .. " found", vim.log.levels.INFO)
         return
       end
 
       local def = first_location(result)
       if not def then
-        vim.notify("Invalid definition response", vim.log.levels.WARN)
+        vim.notify("Invalid " .. label:lower() .. " response", vim.log.levels.WARN)
         return
       end
 
@@ -492,7 +492,7 @@ do
         height = height,
         style = "minimal",
         border = "rounded",
-        title = "Peek " .. rel,
+        title = label .. " " .. rel,
         title_pos = "center",
       })
 
@@ -518,7 +518,13 @@ do
     end)
   end
 
-  keymap.set("n", "gp", peek_definition, opts)
+  keymap.set("n", "gp", function()
+    peek_location("textDocument/definition", "Peek")
+  end, vim.tbl_extend("force", opts, { desc = "Peek Definition" }))
+
+  keymap.set("n", "gP", function()
+    peek_location("textDocument/typeDefinition", "Peek Type")
+  end, vim.tbl_extend("force", opts, { desc = "Peek Type Definition" }))
 end
 
 -- Rename symbol (project/workspace behavior is language-server dependent)
@@ -583,7 +589,8 @@ keymap.set("n", "<leader>ti", function()
     enabled = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
   end)
   if ok then
-    vim.lsp.inlay_hint.enable(not enabled, { bufnr = bufnr })
+    vim.b[bufnr].inlay_hints_enabled = not enabled
+    vim.lsp.inlay_hint.enable(vim.b[bufnr].inlay_hints_enabled, { bufnr = bufnr })
   else
     -- Neovim 0.9 fallback (no is_enabled)
     -- Just toggle by storing a buffer var

@@ -164,8 +164,7 @@ do
   pcall(vim.fn.sign_define, "DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint", numhl = "" })
   -- Ensure LSP handlers use borders
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-  vim.lsp.handlers["textDocument/signatureHelp"] =
-    vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 end
 
 -- scope spell checking to text-like filetypes
@@ -176,7 +175,36 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Enable inlay hints for Python buffers when the server supports it
+local function enable_python_inlay_hints(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) or vim.bo[bufnr].filetype ~= "python" then
+    return
+  end
+  if vim.b[bufnr].inlay_hints_enabled == false then
+    return
+  end
+  local ok = pcall(function()
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end)
+  if not ok then
+    pcall(vim.lsp.buf.inlay_hint, bufnr, true)
+  end
+end
+
+local function refresh_python_inlay_hints(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) or vim.bo[bufnr].filetype ~= "python" then
+    return
+  end
+  if vim.b[bufnr].inlay_hints_enabled == false then
+    return
+  end
+  pcall(function()
+    vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  end)
+end
+
+-- Enable inlay hints for Python buffers when the server supports it.
+-- Pyrefly may infer function return types after the initial attach, so refresh shortly after attach.
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
@@ -196,14 +224,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
     if not supports then
       return
     end
-    -- Neovim 0.10+: vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    -- Neovim 0.9: vim.lsp.buf.inlay_hint(bufnr, true)
-    local ok = pcall(function()
-      return vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    end)
-    if not ok then
-      pcall(vim.lsp.buf.inlay_hint, bufnr, true)
-    end
+    vim.b[bufnr].inlay_hints_enabled = true
+    enable_python_inlay_hints(bufnr)
+    vim.defer_fn(function()
+      refresh_python_inlay_hints(bufnr)
+    end, 400)
+    vim.defer_fn(function()
+      refresh_python_inlay_hints(bufnr)
+    end, 1200)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost" }, {
+  pattern = "*.py",
+  callback = function(args)
+    vim.defer_fn(function()
+      refresh_python_inlay_hints(args.buf)
+    end, 150)
   end,
 })
 
