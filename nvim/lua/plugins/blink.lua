@@ -18,6 +18,17 @@ return {
         window = { border = rounded },
       })
 
+      opts.signature = vim.tbl_deep_extend("force", opts.signature or {}, {
+        enabled = true,
+        trigger = {
+          show_on_accept = true,
+        },
+        window = {
+          border = rounded,
+          show_documentation = true,
+        },
+      })
+
       return opts
     end,
   },
