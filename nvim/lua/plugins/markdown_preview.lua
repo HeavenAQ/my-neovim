@@ -3,8 +3,7 @@ local function patch_markdown_preview_alerts(plugin)
   local css_path = plugin.dir .. "/app/_static/markdown.css"
 
   local index = table.concat(vim.fn.readfile(index_path), "\n")
-  if not index:find("githubAlertPlugin", 1, true) then
-    local alert_plugin = [[
+  local alert_plugin = [[
 const githubAlertPlugin = md => {
   const labels = {
     NOTE: 'Note',
@@ -21,39 +20,63 @@ const githubAlertPlugin = md => {
       const quote = tokens[i]
       const paragraph = tokens[i + 1]
       const inline = tokens[i + 2]
+      const paragraphClose = tokens[i + 3]
 
       if (
         quote.type !== 'blockquote_open' ||
         paragraph.type !== 'paragraph_open' ||
-        inline.type !== 'inline'
+        inline.type !== 'inline' ||
+        paragraphClose.type !== 'paragraph_close'
       ) {
         continue
       }
 
-      const match = inline.content.trim().match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]$/i)
+      const match = inline.content.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](?:[ \t]*(?:\n|$))?/i)
       if (!match) {
         continue
       }
 
       const kind = match[1].toUpperCase()
+      const body = inline.content.slice(match[0].length)
       quote.attrJoin('class', `markdown-alert markdown-alert-${kind.toLowerCase()}`)
-      paragraph.attrJoin('class', 'markdown-alert-title')
-      inline.content = labels[kind]
 
-      if (inline.children && inline.children.length > 0) {
-        inline.children = inline.children.slice(0, 1)
-        inline.children[0].type = 'text'
-        inline.children[0].content = labels[kind]
+      const titleOpen = new state.Token('paragraph_open', 'p', 1)
+      const titleInline = new state.Token('inline', '', 0)
+      const titleText = new state.Token('text', '', 0)
+      const titleClose = new state.Token('paragraph_close', 'p', -1)
+
+      titleOpen.attrJoin('class', 'markdown-alert-title')
+      titleInline.content = labels[kind]
+      titleText.content = labels[kind]
+      titleInline.children = [titleText]
+
+      if (body.trim() === '') {
+        tokens.splice(i + 1, 3, titleOpen, titleInline, titleClose)
+        continue
       }
+
+      const bodyChildren = []
+      state.md.inline.parse(body, state.md, state.env, bodyChildren)
+      inline.content = body
+      inline.children = bodyChildren
+      tokens.splice(i + 1, 0, titleOpen, titleInline, titleClose)
+      i += 3
     }
   })
 }
 
 ]]
+  if index:find("const githubAlertPlugin = md => {", 1, true) then
+    index = index:gsub(
+      "const githubAlertPlugin = md => {.-\n}\n\nconst anchorSymbol =",
+      alert_plugin .. "const anchorSymbol =",
+      1
+    )
+  else
     index = index:gsub("const anchorSymbol =", alert_plugin .. "const anchorSymbol =", 1)
     index = index:gsub("%.use%(emoji%)", ".use(githubAlertPlugin)\n        .use(emoji)", 1)
-    vim.fn.writefile(vim.split(index, "\n", { plain = true }), index_path)
   end
+  vim.fn.writefile(vim.split(index, "\n", { plain = true }), index_path)
 
   local css = table.concat(vim.fn.readfile(css_path), "\n")
   if not css:find("markdown%-alert", 1, false) then
