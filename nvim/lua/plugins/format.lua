@@ -7,7 +7,7 @@ return {
       -- Customize or remove this keymap to your liking
       "<leader>f",
       function()
-        require("conform").format({ async = true })
+        require("lazyvim.util.format").format({ force = true })
       end,
       mode = "",
       desc = "Format buffer",
@@ -28,7 +28,6 @@ return {
     },
     -- Set default options
     default_format_opts = {
-      timeout_ms = 500,
       lsp_format = "fallback",
     },
     -- Customize formatters
@@ -43,8 +42,4 @@ return {
       },
     },
   },
-  init = function()
-    -- If you want the formatexpr, here is the place to set it
-    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
-  end,
 }
