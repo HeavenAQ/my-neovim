@@ -26,12 +26,9 @@ return {
       ["markdown.mdx"] = { "prettierd", "prettier", stop_after_first = true },
       tex = { "latexindent" },
     },
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_format = "fallback",
-    },
     -- Set default options
     default_format_opts = {
+      timeout_ms = 500,
       lsp_format = "fallback",
     },
     -- Customize formatters
