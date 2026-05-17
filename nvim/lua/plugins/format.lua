@@ -22,7 +22,13 @@ return {
       lua = { "stylua" },
       python = { "isort", "black" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
+      markdown = { "prettierd", "prettier", stop_after_first = true },
+      ["markdown.mdx"] = { "prettierd", "prettier", stop_after_first = true },
       tex = { "latexindent" },
+    },
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_format = "fallback",
     },
     -- Set default options
     default_format_opts = {
