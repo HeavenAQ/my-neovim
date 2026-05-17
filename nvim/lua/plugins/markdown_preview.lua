@@ -42,23 +42,19 @@ const githubAlertPlugin = md => {
 
       const titleOpen = new state.Token('paragraph_open', 'p', 1)
       const titleInline = new state.Token('inline', '', 0)
-      const titleText = new state.Token('text', '', 0)
       const titleClose = new state.Token('paragraph_close', 'p', -1)
 
       titleOpen.attrJoin('class', 'markdown-alert-title')
       titleInline.content = labels[kind]
-      titleText.content = labels[kind]
-      titleInline.children = [titleText]
+      titleInline.children = []
 
       if (body.trim() === '') {
         tokens.splice(i + 1, 3, titleOpen, titleInline, titleClose)
         continue
       }
 
-      const bodyChildren = []
-      state.md.inline.parse(body, state.md, state.env, bodyChildren)
       inline.content = body
-      inline.children = bodyChildren
+      inline.children = []
       tokens.splice(i + 1, 0, titleOpen, titleInline, titleClose)
       i += 3
     }
