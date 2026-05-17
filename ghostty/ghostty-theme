@@ -1,30 +1,29 @@
+# ~/.config/ghostty/config
+# monet.nvim — dark mode
+
 background = #00111f
 foreground = #CBE0F0
 
-cursor-color = #47FF9C 
+# Normal colors (ANSI 0-7)
+palette = 0=#214969   
+palette = 1=#e07a8a   
+palette = 2=#8dc09a   
+palette = 3=#d4a96a   
+palette = 4=#7ba8c8   
+palette = 5=#c09ac8   
+palette = 6=#5cd5db   
+palette = 7=#c2cde8   
 
-# black
-palette = 0=#214969
-palette = 8=#214969
-# red
-palette = 1=#f16c75
-palette = 9=#f16c75
-# green
-palette = 2=#37f499
-palette = 10=#37f499
-# yellow
-palette = 3=#FFE073
-palette = 11=#19dfcf
-# blue
-palette = 4=#0FC5ED
-palette = 12=#987afb
-# purple
-palette = 5=#a277ff
-palette = 13=#949ae5
-# aqua
-palette = 6=#24EAF7
-palette = 14=#04d1f9
-# white
-palette = 7=#24EAF7
-palette = 15=#ebfafa
+# Bright colors (ANSI 8-15)
+palette = 8=#2e2e42   
+palette = 9=#f09aaa   
+palette = 10=#a8d8b0  
+palette = 11=#e8c48a  
+palette = 12=#9ac2e0  
+palette = 13=#d4b4e0  
+palette = 14=#7ee8ec  
+palette = 15=#e8f0f8  
 
+cursor-color = #c2f5bf
+selection-background = #2e3a50
+selection-foreground = #d9e0ee
