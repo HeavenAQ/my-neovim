@@ -18,6 +18,8 @@ $env.FZF_CTRL_T_OPTS = [
 ] | str join " "
 $env.QUARTO_PYTHON = "/Users/heavenchen/dev/umich-deep-learning/.venv/bin/python"
 
+source ~/.config/nushell/vendor/autoload/starship.nu
+
 $env.config.keybindings = [
   {
     name: fzf_history
@@ -115,39 +117,176 @@ def --env y [...args] {
   rm -fp $tmp
 }
 
-# zoxide directory jumper for Nushell
-source ~/.zoxide.nu
+# zsh-z compatible directory jumper. Reuses the existing ~/.z database.
+def z-data-file [] {
+  $nu.home-dir | path join ".z"
+}
 
-def "nu-complete zoxide path" [context: string] {
-  let parts = $context | str trim --left | split row " " | skip 1 | each { str downcase }
-  let completions = (
-    ^zoxide query --list --exclude $env.PWD -- ...$parts
-    | lines
-    | each {|dir|
-        if ($parts | length) <= 1 {
-          $dir
+def z-entries [] {
+  let data_file = (z-data-file)
+
+  if not ($data_file | path exists) {
+    return []
+  }
+
+  nu-open --raw $data_file
+  | lines
+  | where {|line| $line =~ '\|[0-9.]+\|[0-9]+$' }
+  | parse "{path}|{rank}|{time}"
+  | update rank {|row| $row.rank | into float }
+  | update time {|row| $row.time | into int }
+}
+
+def z-save [entries: table] {
+  let data_file = (z-data-file)
+  let text = (
+    $entries
+    | each {|entry| $"($entry.path)|($entry.rank)|($entry.time)" }
+    | str join "\n"
+  )
+
+  if ($text | is-empty) {
+    "" | save --force $data_file
+  } else {
+    $"($text)\n" | save --force $data_file
+  }
+}
+
+def z-touch [dir: string] {
+  if not ($dir | path exists) {
+    return
+  }
+
+  let data_file = (z-data-file)
+  let now = ((date now | into int) // 1_000_000_000)
+  let dir = ($dir | path expand)
+  let old_entries = (z-entries)
+  let old = ($old_entries | where path == $dir | first)
+  let rank = if ($old | is-empty) { 1.0 } else { ($old.rank + 1.0) }
+  let new_entry = { path: $dir, rank: $rank, time: $now }
+  let entries = (
+    $old_entries
+    | where path != $dir
+    | append $new_entry
+  )
+
+  if not ($data_file | path exists) {
+    "" | save --force $data_file
+  }
+
+  z-save $entries
+}
+
+def z-remove [
+  dir: string
+  --recursive (-R)
+] {
+  let dir = ($dir | path expand)
+  let entries = if $recursive {
+    z-entries | where {|entry| not ($entry.path == $dir or ($entry.path | str starts-with $"($dir)/")) }
+  } else {
+    z-entries | where path != $dir
+  }
+
+  z-save $entries
+}
+
+def z-matches [
+  ...query: string
+  --rank (-r)
+  --recent (-t)
+  --current (-c)
+] {
+  let now = ((date now | into int) // 1_000_000_000)
+  let terms = ($query | each { str downcase })
+  let base = (
+    z-entries
+    | where {|entry| $entry.path != $env.PWD and ($entry.path | path exists) }
+    | where {|entry|
+        if $current {
+          $entry.path | str starts-with $"($env.PWD)/"
         } else {
-          let dir_lower = $dir | str downcase
-          let rem_start = $parts | drop 1 | reduce --fold 0 {|part, rem_start|
-            ($dir_lower | str index-of --range $rem_start.. $part) + ($part | str length)
-          }
-          {
-            value: ($dir | str substring $rem_start..)
-            description: $dir
-          }
+          true
         }
       }
+    | where {|entry|
+        if ($terms | is-empty) {
+          true
+        } else {
+          let path = ($entry.path | str downcase)
+          $terms | all {|term| $path | str contains $term }
+        }
+      }
+    | insert age {|entry| [($now - $entry.time), 0] | math max }
+    | insert frecent {|entry| $entry.rank / (($entry.age + 3600) | into float) }
   )
+
+  if $rank {
+    $base | sort-by rank --reverse
+  } else if $recent {
+    $base | sort-by time --reverse
+  } else {
+    $base | sort-by frecent --reverse
+  }
+}
+
+def "nu-complete z path" [context: string] {
+  let parts = (
+    $context
+    | str trim --left
+    | split row " "
+    | skip 1
+    | where {|part| not ($part | str starts-with "-") }
+  )
+
   {
     options: {
       sort: false
       completion_algorithm: substring
       case_sensitive: false
     }
-    completions: $completions
+    completions: (
+      z-matches ...$parts
+      | each {|entry| { value: $entry.path, description: $"rank ($entry.rank), last used ($entry.time)" } }
+    )
   }
 }
 
-def --env --wrapped z [...rest: string@"nu-complete zoxide path"] {
-  __zoxide_z ...$rest
+def --env z [
+  --list (-l)
+  --echo (-e)
+  --rank (-r)
+  --recent (-t)
+  --current (-c)
+  --remove (-x)
+  --recursive (-R)
+  ...query: string@"nu-complete z path"
+] {
+  if $remove {
+    z-remove $env.PWD --recursive=$recursive
+    return
+  }
+
+  let matches = (z-matches ...$query --rank=$rank --recent=$recent --current=$current)
+
+  if $list {
+    $matches | select path rank time
+  } else {
+    let match = ($matches | first)
+    if ($match | is-empty) {
+      print --stderr $"z: no match found: ($query | str join ' ')"
+      return
+    }
+
+    if $echo {
+      print $match.path
+    } else {
+      cd $match.path
+    }
+  }
 }
+
+$env.config.hooks.env_change.PWD = (
+  ($env.config.hooks.env_change.PWD? | default [])
+  | append {|_before, after| z-touch $after }
+)
