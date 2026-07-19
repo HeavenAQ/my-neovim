@@ -8,6 +8,8 @@ alacritty/.cache/
 # ==================================================
 tmux/resurrect/
 tmux/continuum/
+tmux/.tmux/plugins
+tmux/plugins
 .tmux.conf.bak
 
 # ==================================================
