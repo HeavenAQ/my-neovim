@@ -117,6 +117,19 @@ window-padding-y = 6,0
 #
 # Base family and size
 
+# PlemolJP Console NF = IBM Plex Mono + IBM Plex Sans JP + Nerd Fonts
+#   （devicon 496字を含む）。英語・日本語・アイコンが1ファイルで揃う。
+#   半角:全角 = 1:2 なので日本語が端末のセルにぴったり2セルで収まる。
+#   "Console" は記号（→ ± × など曖昧幅の文字）を半角で描く版で、端末の
+#   桁ずれが起きにくい。端末で使うならこれ。
+#   入れ直す場合: brew install --cask font-plemol-jp-nf
+font-family = "PlemolJP Console NF"
+
+# 代替（どちらも導入済み。1行差し替えるだけ）:
+#   "UDEV Gothic NF"    BIZ UDゴシック + JetBrains Mono。UD設計で字の判別が強い
+#                       brew install --cask font-udev-gothic-nf
+#   "UDEV Gothic NFLG"  上の合字あり版
+
 font-size = 11
 
 # Style names as advertised by the font
@@ -217,3 +230,8 @@ background-opacity = 0.85
 # 
 # This is only supported on macOS.
 background-blur-radius = 20
+
+# clipboard
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = clipboard

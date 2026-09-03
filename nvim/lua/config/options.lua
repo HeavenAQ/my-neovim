@@ -58,3 +58,12 @@ vim.cmd([[au BufNewFile,BufRead Podfile setf ruby]])
 if vim.fn.has("nvim-0.8") == 1 then
   vim.opt.cmdheight = 0
 end
+
+-- ssh 越しでも yank をシステムクリップボードへ送る。
+-- LazyVim の既定 (lua/lazyvim/config/options.lua) は
+--   opt.clipboard = vim.env.SSH_CONNECTION and "" or "unnamedplus"
+-- で、ssh 接続中は clipboard を空にする＝yy が + レジスタに入らない。
+-- init.lua で設定しても LazyVim の options が後から空へ戻すため、
+-- LazyVim の既定の後に読まれるこのファイルで上書きする。
+-- 実際の転送は init.lua の OSC 52 プロバイダが行う。
+vim.opt.clipboard = "unnamedplus"

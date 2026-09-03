@@ -86,3 +86,6 @@ raycast/extensions/*
 gcloud
 configstore/
 github-copilot/
+
+# t1code（TUI のランタイム状態とログ。tui.log にローカルの ws トークンが載る）
+t1code/

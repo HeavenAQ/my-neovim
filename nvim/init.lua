@@ -68,3 +68,35 @@ vim.api.nvim_create_autocmd({ "VimEnter", "ColorScheme" }, {
     vim.schedule(set_lualine_transparent)
   end,
 })
+
+-- クリップボード同期
+--
+-- ローカル(macOS)では nvim が pbcopy/pbpaste を使うのでそのままでよい。
+-- ssh 先では pbcopy が無いので、OSC 52 で手元の端末へ送る。
+-- ここを無条件にすると、ローカルでも貼り付けが端末経由になり
+-- 他アプリからの "+p が効かなくなるので、ssh のときだけ差し替える。
+--
+-- 注意: 以前ここに自前の実装を置いていたが、vim.fn.base64encode は
+-- Neovim には無い関数（Vim と取り違えたもの）で、yank のたびに
+-- E117: Unknown function: base64encode で落ち、コピーが一度も端末へ
+-- 届いていなかった。Neovim 0.10+ 同梱のプロバイダを使うこと。
+if vim.env.SSH_CONNECTION then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = osc52.copy("+"),
+      ["*"] = osc52.copy("*"),
+    },
+    -- 貼り付けは端末に問い合わせない（OSC 52 の read は返さない端末が多く、
+    -- 待たされるだけになる）。直前の無名レジスタを返す。
+    paste = {
+      ["+"] = function()
+        return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+      end,
+      ["*"] = function()
+        return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+      end,
+    },
+  }
+end
