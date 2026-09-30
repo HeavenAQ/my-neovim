@@ -1,0 +1,488 @@
+" ============================================================================
+" Portable vimrc — a dependency-free mirror of ~/.config/nvim (LazyVim)
+"
+" Install on any server:
+"   scp ~/.config/nvim/vimrc user@host:~/.vimrc
+"
+" Works with plain Vim 7.4+ / 8 / 9 and also under Neovim (nvim -u vimrc).
+" Everything that needs a newer Vim is guarded with has()/exists(), so old
+" system Vims just skip those parts instead of erroring.
+"
+" Not reproduced (plugins only): LSP (hover / rename / code action / peek),
+" completion, tree-sitter, surround, autopairs, Quarto, nabla, vimtex.
+" Where it made sense a built-in stand-in is mapped to the same key and
+" marked with "(stand-in)" below.
+" ============================================================================
+
+if &compatible | set nocompatible | endif
+let s:nvim = has('nvim')
+
+" ----------------------------------------------------------------------------
+" Leaders  (options.lua / lazy.lua)
+" ----------------------------------------------------------------------------
+let g:mapleader      = ','
+let g:maplocalleader = ';'
+
+" ----------------------------------------------------------------------------
+" Options  (options.lua + the LazyVim defaults the keymaps rely on)
+" ----------------------------------------------------------------------------
+if has('multi_byte') | set encoding=utf-8 | endif
+scriptencoding utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,default,latin1
+
+filetype plugin indent on
+if !exists('g:syntax_on') | syntax enable | endif
+
+set title
+set autoindent smartindent
+set hlsearch incsearch
+set ignorecase smartcase          " case-insensitive unless the pattern has a capital
+set nobackup nowritebackup
+set backupskip=/tmp/*,/private/tmp/*
+set showcmd
+set laststatus=2
+set expandtab smarttab shiftround
+set tabstop=4 softtabstop=4 shiftwidth=4
+set scrolloff=10 sidescrolloff=8
+set wrap linebreak
+if exists('+breakindent') | set breakindent | endif
+set backspace=start,eol,indent
+set path+=**                      " :find searches into subfolders
+set wildignore+=*/node_modules/*,*/.git/*,*/__pycache__/*,*/venv/*,*/.venv/*
+set wildmenu
+set wildmode=longest:full,full
+set splitbelow splitright
+if exists('+splitkeep') | set splitkeep=cursor | endif
+set cursorline
+set nocursorcolumn
+set nolist
+set formatoptions+=r formatoptions-=o   " continue comments on <CR>, not on o/O
+set formatoptions+=j                    " remove comment leader when joining
+if exists('+inccommand') | set inccommand=split | endif
+if executable('zsh') | set shell=zsh | endif
+
+" LazyVim defaults that the workflow assumes
+set number relativenumber
+set mouse=a
+if has('mouse_sgr') | set ttymouse=sgr | endif
+set hidden autowrite confirm
+set timeout timeoutlen=300 ttimeout ttimeoutlen=10
+set updatetime=200
+set completeopt=menu,menuone,noselect
+set virtualedit=block
+set nrformats-=octal
+set display=lastline
+set history=1000
+set spelllang=en
+set nospell
+set belloff=all
+set shortmess+=c
+set winminwidth=5
+set nofoldenable foldlevel=99 foldlevelstart=99
+if exists('+jumpoptions') | silent! set jumpoptions=view | endif
+if exists('+signcolumn') | set signcolumn=yes | endif
+if exists('+termguicolors') && ($COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit' || s:nvim)
+  set termguicolors
+endif
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case
+  set grepformat=%f:%l:%c:%m
+endif
+
+" Persistent undo (LazyVim default) without littering the working tree
+if has('persistent_undo')
+  let s:undodir = expand('~/.vim/undo')
+  if !isdirectory(s:undodir) | silent! call mkdir(s:undodir, 'p', 0700) | endif
+  let &undodir = s:undodir
+  set undofile
+endif
+
+" Clipboard: yank goes to the system clipboard when Vim has one
+if has('clipboard')
+  if has('unnamedplus')
+    set clipboard^=unnamedplus
+  else
+    set clipboard^=unnamed
+  endif
+endif
+
+" Undercurl + cursor shape (autocmds.lua / nvim guicursor)
+if !s:nvim
+  let &t_Cs = "\e[4:3m"
+  let &t_Ce = "\e[4:0m"
+  let &t_SI = "\e[6 q"      " insert: bar
+  let &t_SR = "\e[4 q"      " replace: underline
+  let &t_EI = "\e[2 q"      " normal: block
+endif
+
+" Simple statusline (lualine stand-in)
+set statusline=\ %f\ %m%r%h%w%=%{&filetype}\ \ %l:%c\ \ %p%%\
+
+" ----------------------------------------------------------------------------
+" Colors  (colorscheme.lua / autocmds.lua): transparent bg + the overrides
+" ----------------------------------------------------------------------------
+function! s:apply_highlights() abort
+  " transparent background like tokyonight/nordic transparent=true
+  highlight Normal       ctermbg=NONE guibg=NONE
+  highlight NonText      ctermbg=NONE guibg=NONE
+  highlight EndOfBuffer  ctermbg=NONE guibg=NONE
+  highlight SignColumn   ctermbg=NONE guibg=NONE
+  highlight FoldColumn   ctermbg=NONE guibg=NONE
+  highlight StatusLine   ctermbg=NONE guibg=NONE cterm=NONE gui=NONE
+  highlight StatusLineNC ctermbg=NONE guibg=NONE cterm=NONE gui=NONE
+  highlight LineNr       ctermfg=243  guifg=#717161 ctermbg=NONE guibg=NONE
+  highlight CursorLineNr ctermbg=NONE guibg=NONE
+  highlight Comment      ctermfg=245  guifg=#818388 cterm=italic gui=italic
+  highlight CursorLine   ctermbg=238  guibg=#404040 cterm=NONE gui=NONE
+  highlight CursorColumn ctermbg=238  guibg=#404040
+  highlight Visual       ctermbg=238  guibg=#404040 cterm=NONE gui=NONE
+  highlight Pmenu        ctermbg=NONE guibg=NONE
+  highlight PmenuSel     ctermbg=24   guibg=#275378 ctermfg=231 guifg=#FFFFFF
+  highlight Search       ctermbg=25   guibg=#0A64AC ctermfg=231 guifg=#FFFFFF
+  highlight IncSearch    ctermbg=24   guibg=#275378 ctermfg=231 guifg=#FFFFFF
+  highlight DiffText     ctermfg=203  guifg=#ff6660
+  highlight VertSplit    ctermbg=NONE guibg=NONE
+  highlight Boolean      ctermfg=209  guifg=#f78c6c
+  highlight Number       ctermfg=209  guifg=#f78c6c
+  highlight Float        ctermfg=209  guifg=#f78c6c
+  highlight SpellBad     ctermbg=NONE guibg=NONE cterm=undercurl gui=undercurl guisp=#ff6b6b
+  highlight SpellCap     ctermbg=NONE guibg=NONE cterm=undercurl gui=undercurl guisp=#ffd166
+endfunction
+
+augroup portable_colors
+  autocmd!
+  autocmd ColorScheme * call s:apply_highlights()
+augroup END
+
+set background=dark
+" Vim 9 ships habamax (closest built-in to a dark nord-ish theme);
+" older Vims fall back to desert. Neovim also ships habamax.
+silent! colorscheme habamax
+if !exists('g:colors_name') || g:colors_name !=# 'habamax'
+  silent! colorscheme desert
+endif
+call s:apply_highlights()
+
+" ----------------------------------------------------------------------------
+" netrw as the file tree  (\ = Neotree toggle)
+" ----------------------------------------------------------------------------
+let g:netrw_banner       = 0
+let g:netrw_liststyle    = 3      " tree view
+let g:netrw_winsize      = 25
+let g:netrw_browse_split = 4      " open files in the previous window
+let g:netrw_altv         = 1
+let g:netrw_list_hide    = '^\.git/$,^\.DS_Store$,^thumbs\.db$'
+let g:netrw_hide         = 1
+
+function! s:toggle_tree() abort
+  for w in range(1, winnr('$'))
+    if getbufvar(winbufnr(w), '&filetype') ==# 'netrw'
+      execute w . 'wincmd w'
+      close
+      return
+    endif
+  endfor
+  Lexplore
+endfunction
+
+" ----------------------------------------------------------------------------
+" Keymaps  (keymaps.lua)
+" ----------------------------------------------------------------------------
+" No copy on x / paste-over
+nnoremap x "_x
+xnoremap p "_dP
+
+" Increment / decrement
+nnoremap + <C-a>
+nnoremap - <C-x>
+
+" Select all
+nnoremap <C-a> gg<S-v>G
+
+" Half-page scroll keeps the cursor centred
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" Move lines in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" New tab
+nnoremap te :tabedit<CR>
+
+" Split window
+nnoremap ss :split<CR>
+nnoremap sv :vsplit<CR>
+
+" Move around windows
+nnoremap sh <C-w>h
+nnoremap sk <C-w>k
+nnoremap sj <C-w>j
+nnoremap sl <C-w>l
+
+" Resize windows
+nnoremap <C-w><Left>  <C-w><
+nnoremap <C-w><Right> <C-w>>
+nnoremap <C-w><Up>    <C-w>+
+nnoremap <C-w><Down>  <C-w>-
+
+" Terminal -> normal
+if has('terminal') || s:nvim
+  tnoremap <Esc> <C-\><C-n>
+endif
+
+" File tree / clear highlight
+nnoremap <silent> \ :call <SID>toggle_tree()<CR>
+nnoremap <silent> <leader><leader> :nohlsearch<CR>
+" LazyVim: <Esc> in normal mode also clears search highlight
+nnoremap <silent> <Esc> :nohlsearch<CR><Esc>
+
+" Toggle spell
+function! s:toggle_spell() abort
+  setlocal spell!
+  echo 'Spell: ' . (&l:spell ? 'ON' : 'OFF')
+endfunction
+nnoremap <silent> <leader>ts :call <SID>toggle_spell()<CR>
+
+" Tabs and buffers
+nnoremap <silent> <Tab>   :tabnext<CR>
+nnoremap <silent> <S-Tab> :tabprevious<CR>
+nnoremap <silent> <S-l>   :bnext<CR>
+nnoremap <silent> <S-h>   :bprevious<CR>
+
+" LazyVim basics
+nnoremap <C-s> :w<CR>
+inoremap <C-s> <Esc>:w<CR>
+xnoremap <C-s> <Esc>:w<CR>
+nnoremap <silent> <leader>qq :qa<CR>
+nnoremap <silent> <leader>bd :bdelete<CR>
+nnoremap <silent> <leader>-  :split<CR>
+nnoremap <silent> <leader>\| :vsplit<CR>
+nnoremap <silent> <leader>e  :call <SID>toggle_tree()<CR>
+nnoremap <leader>ff :find<Space>
+nnoremap <leader>/  :grep!<Space>
+" n / N always search in the same direction as the typed pattern
+nnoremap <expr> n 'Nn'[v:searchforward]
+xnoremap <expr> n 'Nn'[v:searchforward]
+nnoremap <expr> N 'nN'[v:searchforward]
+xnoremap <expr> N 'nN'[v:searchforward]
+
+" Diagnostics next/prev (stand-in): quickfix list, e.g. after :make or :grep
+nnoremap <silent> <C-j> :cnext<CR>zz
+nnoremap <silent> <C-p> :cprevious<CR>zz
+nnoremap <silent> <leader>xx :copen<CR>
+
+" <leader>d  Defs + refs in project (stand-in): grep the word under cursor
+nnoremap <silent> <leader>d :silent grep! -w <cword><CR>:copen<CR>
+nnoremap <silent> ,d       :silent grep! -w <cword><CR>:copen<CR>
+
+" <leader>r  Rename (stand-in): substitute the word under cursor in this file
+nnoremap <leader>r :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
+
+" <leader>f  Format (stand-in): re-indent the buffer, keep the view
+function! s:reindent() abort
+  let l:view = winsaveview()
+  normal! gg=G
+  call winrestview(l:view)
+endfunction
+nnoremap <silent> <leader>f :call <SID>reindent()<CR>
+
+" LaTeX align block
+function! s:latex_align() abort
+  call append(line('.'), ['$$\begin{align*}', '', '\end{align*}$$'])
+  call cursor(line('.') + 2, 1)
+  startinsert!
+endfunction
+nnoremap <silent> <leader>a :call <SID>latex_align()<CR>
+
+" gcc / gc{motion} / gc (visual): toggle comments  (Neovim built-in stand-in)
+function! s:comment_toggle(lnum1, lnum2) abort
+  let l:cs = empty(&commentstring) ? '# %s' : &commentstring
+  let l:parts = split(l:cs, '%s', 1)
+  let l:left  = substitute(get(l:parts, 0, ''), '\s*$', '', '')
+  let l:right = substitute(get(l:parts, 1, ''), '^\s*', '', '')
+  let l:lines = getline(a:lnum1, a:lnum2)
+  let l:code  = filter(copy(l:lines), 'v:val !~# "^\\s*$"')
+  if empty(l:code) | return | endif
+  let l:esc_l = escape(l:left, '\/.*$^~[]')
+  let l:esc_r = escape(l:right, '\/.*$^~[]')
+  let l:all_commented = 1
+  for l:line in l:code
+    if l:line !~# '^\s*' . l:esc_l
+      let l:all_commented = 0 | break
+    endif
+  endfor
+  " indent to the shallowest non-blank line
+  let l:indent = min(map(copy(l:code), 'matchend(v:val, "^\\s*")'))
+  let l:out = []
+  for l:line in l:lines
+    if l:line =~# '^\s*$'
+      call add(l:out, l:line)
+    elseif l:all_commented
+      let l:line = substitute(l:line, '^\(\s*\)' . l:esc_l . '\s\?', '\1', '')
+      if !empty(l:right)
+        let l:line = substitute(l:line, '\s\?' . l:esc_r . '\s*$', '', '')
+      endif
+      call add(l:out, l:line)
+    else
+      let l:pre  = strpart(l:line, 0, l:indent)
+      let l:rest = strpart(l:line, l:indent)
+      call add(l:out, l:pre . l:left . ' ' . l:rest . (empty(l:right) ? '' : ' ' . l:right))
+    endif
+  endfor
+  call setline(a:lnum1, l:out)
+endfunction
+function! s:comment_op(type, ...) abort
+  if a:0
+    call s:comment_toggle(line("'<"), line("'>"))
+  else
+    call s:comment_toggle(line("'["), line("']"))
+  endif
+endfunction
+nnoremap <silent> gcc :<C-u>call <SID>comment_toggle(line('.'), line('.') + v:count1 - 1)<CR>
+xnoremap <silent> gc  :<C-u>call <SID>comment_op(visualmode(), 1)<CR>
+nnoremap <silent> gc  :<C-u>set operatorfunc=<SID>comment_op<CR>g@
+
+" ----------------------------------------------------------------------------
+" Cowboy discipline  (heaven/disciplines.lua): stop mashing h/j/k/l
+" ----------------------------------------------------------------------------
+if exists('*reltimefloat')
+  let s:cowboy_count = 0
+  let s:cowboy_last  = 0.0
+  function! s:cowboy(key) abort
+    let l:now = reltimefloat(reltime())
+    if v:count > 0 || l:now - s:cowboy_last > 2.0
+      let s:cowboy_count = 0
+    endif
+    if s:cowboy_count >= 10
+      echohl WarningMsg | echo '🤠 Hold it Cowboy!' | echohl None
+      return ''
+    endif
+    let s:cowboy_count += 1
+    let s:cowboy_last = l:now
+    return a:key
+  endfunction
+  for s:k in ['h', 'j', 'k', 'l']
+    execute 'nnoremap <expr> <silent> ' . s:k . ' <SID>cowboy("' . s:k . '")'
+  endfor
+  unlet s:k
+endif
+
+" ----------------------------------------------------------------------------
+" Floating-ish terminal  (<C-g>): one reusable shell in a bottom split
+" ----------------------------------------------------------------------------
+if has('terminal') || s:nvim
+  let s:term_buf = -1
+  function! s:toggle_term() abort
+    " close if visible
+    if s:term_buf > 0 && bufexists(s:term_buf)
+      let l:w = bufwinnr(s:term_buf)
+      if l:w > 0
+        execute l:w . 'wincmd w'
+        hide
+        return
+      endif
+    endif
+    botright new
+    execute 'resize ' . max([8, &lines * 35 / 100])
+    if s:term_buf > 0 && bufexists(s:term_buf)
+      execute 'buffer ' . s:term_buf
+    else
+      if s:nvim
+        terminal
+      else
+        execute 'terminal ++curwin ++kill=term'
+      endif
+      let s:term_buf = bufnr('%')
+      setlocal bufhidden=hide nobuflisted
+    endif
+    if s:nvim
+      startinsert
+    endif
+  endfunction
+  nnoremap <silent> <C-g> :call <SID>toggle_term()<CR>
+  tnoremap <silent> <C-g> <C-\><C-n>:call <SID>toggle_term()<CR>
+endif
+
+" ----------------------------------------------------------------------------
+" Autocmds  (autocmds.lua / options.lua)
+" ----------------------------------------------------------------------------
+augroup portable_autocmds
+  autocmd!
+  " turn off paste mode when leaving insert
+  autocmd InsertLeave * set nopaste
+
+  " 2-space indent for web / config / lua files
+  autocmd FileType javascript,typescript,typescriptreact,javascriptreact,
+        \html,css,scss,json,yaml,markdown,astro,lua,vue
+        \ setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+  " extra filetypes
+  autocmd BufNewFile,BufRead *.astro  setfiletype astro
+  autocmd BufNewFile,BufRead Podfile  setfiletype ruby
+  autocmd BufNewFile,BufRead *.s,*.S  setfiletype asm
+
+  " spell only for text-like filetypes
+  autocmd FileType markdown,text,gitcommit,norg,org,rmd,tex,latex,plaintex setlocal spell
+
+  " return to the last edit position when opening a file
+  autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line('$') && &filetype !~# 'commit'
+        \ |   execute "normal! g`\""
+        \ | endif
+
+  " open quickfix after :grep / :make
+  autocmd QuickFixCmdPost [^l]* nested cwindow
+  autocmd QuickFixCmdPost l*    nested lwindow
+
+  " no line numbers / spell in terminal buffers
+  if exists('##TermOpen')
+    autocmd TermOpen * setlocal nonumber norelativenumber nospell
+  elseif exists('##TerminalOpen')
+    autocmd TerminalOpen * setlocal nonumber norelativenumber nospell
+  endif
+augroup END
+
+" ----------------------------------------------------------------------------
+" Clipboard over SSH via OSC 52  (init.lua): yank -> local terminal clipboard
+" ----------------------------------------------------------------------------
+if !empty($SSH_CONNECTION) && exists('##TextYankPost')
+  function! s:b64(text) abort
+    if exists('*base64_encode') && exists('*str2blob')
+      return base64_encode(str2blob([a:text]))
+    elseif executable('base64')
+      return substitute(system('base64', a:text), '\n', '', 'g')
+    endif
+    return ''
+  endfunction
+  function! s:osc52_yank() abort
+    if v:event.operator !=# 'y' | return | endif
+    let l:reg = v:event.regname
+    if l:reg !=# '' && l:reg !=# '"' && l:reg !=# '+' && l:reg !=# '*' | return | endif
+    let l:text = join(v:event.regcontents, "\n")
+    if v:event.regtype ==# 'V' | let l:text .= "\n" | endif
+    let l:b64 = s:b64(l:text)
+    if empty(l:b64) | return | endif
+    let l:seq = "\e]52;c;" . l:b64 . "\x07"
+    if !empty($TMUX)
+      let l:seq = "\ePtmux;" . substitute(l:seq, "\e", "\e\e", 'g') . "\e\\"
+    endif
+    if s:nvim
+      call chansend(v:stderr, l:seq)
+    elseif exists('*echoraw')
+      call echoraw(l:seq)
+    else
+      call writefile([l:seq], '/dev/tty', 'b')
+    endif
+  endfunction
+  augroup portable_osc52
+    autocmd!
+    autocmd TextYankPost * call s:osc52_yank()
+  augroup END
+endif
+
+" Local, per-machine tweaks
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
